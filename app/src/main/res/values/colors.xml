@@ -6,12 +6,19 @@
     <color name="on_primary">#ffffff</color>
     <color name="primary_container">#1a5276</color>
     <color name="on_primary_container">#ffffff</color>
-    
+
+    <!-- Fixed Primary -->
+    <color name="primary_fixed">#cbe6ff</color>
+    <color name="primary_fixed_dim">#9bccf6</color>
+    <color name="on_primary_fixed">#001e30</color>
+
     <!-- Tertiary - Amber Energy (For Priority) -->
     <color name="tertiary">#4b3200</color>
     <color name="on_tertiary">#ffffff</color>
     <color name="tertiary_container">#ffddb3</color>
     <color name="on_tertiary_container">#281800</color>
+    <color name="tertiary_fixed">#ffdeac</color>
+    <color name="tertiary_fixed_dim">#ffba38</color>
 
     <!-- Surface Tiers -->
     <color name="surface">#f7f9fe</color>

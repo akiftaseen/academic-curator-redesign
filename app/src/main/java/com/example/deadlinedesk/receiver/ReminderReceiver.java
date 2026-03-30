@@ -16,16 +16,19 @@ import com.example.deadlinedesk.R;
 import com.example.deadlinedesk.data.AppDatabase;
 import com.example.deadlinedesk.data.Deadline;
 import com.example.deadlinedesk.data.DeadlineDao;
+import com.example.deadlinedesk.ui.AddEditDeadlineActivity;
+import com.example.deadlinedesk.ui.DeadlineDetailActivity;
 
 public class ReminderReceiver extends BroadcastReceiver {
     
     private static final String ACTION_MARK_DONE = "com.example.deadlinedesk.ACTION_MARK_DONE";
+    private static final String ACTION_SNOOZE = "com.example.deadlinedesk.ACTION_SNOOZE";
 
     @Override
     public void onReceive(Context context, Intent intent) {
         
         if (ACTION_MARK_DONE.equals(intent.getAction())) {
-            int id = intent.getIntExtra("EXTRA_DEADLINE_ID", -1);
+            int id = intent.getIntExtra(AddEditDeadlineActivity.EXTRA_DEADLINE_ID, -1);
             if (id != -1) {
                 AppDatabase.databaseWriteExecutor.execute(() -> {
                     DeadlineDao dao = AppDatabase.getDatabase(context).deadlineDao();
@@ -40,26 +43,65 @@ public class ReminderReceiver extends BroadcastReceiver {
             return;
         }
 
-        int deadlineId = intent.getIntExtra("EXTRA_DEADLINE_ID", -1);
-        String title = intent.getStringExtra("EXTRA_DEADLINE_TITLE");
-        String module = intent.getStringExtra("EXTRA_DEADLINE_MODULE");
+        if (ACTION_SNOOZE.equals(intent.getAction())) {
+            int id = intent.getIntExtra(AddEditDeadlineActivity.EXTRA_DEADLINE_ID, -1);
+            if (id != -1) {
+                ReminderScheduler.snoozeReminder(context, intent, id);
+                NotificationManagerCompat.from(context).cancel(id);
+            }
+            return;
+        }
 
-        Intent mainIntent = new Intent(context, MainActivity.class);
-        PendingIntent contentIntent = PendingIntent.getActivity(context, deadlineId, mainIntent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+        int deadlineId = intent.getIntExtra(AddEditDeadlineActivity.EXTRA_DEADLINE_ID, -1);
+        String title = intent.getStringExtra(AddEditDeadlineActivity.EXTRA_DEADLINE_TITLE);
+        String module = intent.getStringExtra(AddEditDeadlineActivity.EXTRA_DEADLINE_MODULE);
+        String priority = intent.getStringExtra(AddEditDeadlineActivity.EXTRA_DEADLINE_PRIORITY);
+        long dueDate = intent.getLongExtra(AddEditDeadlineActivity.EXTRA_DEADLINE_DUE, 0);
+        String notes = intent.getStringExtra(AddEditDeadlineActivity.EXTRA_DEADLINE_NOTES);
+        int reminderMinutes = intent.getIntExtra(AddEditDeadlineActivity.EXTRA_DEADLINE_REMINDER_MINUTES, 60);
+
+        // Open Detail Activity when clicked
+        Intent detailIntent = new Intent(context, DeadlineDetailActivity.class);
+        detailIntent.putExtra(AddEditDeadlineActivity.EXTRA_DEADLINE_ID, deadlineId);
+        detailIntent.putExtra(AddEditDeadlineActivity.EXTRA_DEADLINE_TITLE, title);
+        detailIntent.putExtra(AddEditDeadlineActivity.EXTRA_DEADLINE_MODULE, module);
+        detailIntent.putExtra(AddEditDeadlineActivity.EXTRA_DEADLINE_DUE, dueDate);
+        detailIntent.putExtra(AddEditDeadlineActivity.EXTRA_DEADLINE_PRIORITY, priority);
+        detailIntent.putExtra(AddEditDeadlineActivity.EXTRA_DEADLINE_NOTES, notes);
+        detailIntent.putExtra(AddEditDeadlineActivity.EXTRA_DEADLINE_DONE, false);
+        detailIntent.putExtra(AddEditDeadlineActivity.EXTRA_DEADLINE_REMINDER_MINUTES, reminderMinutes);
+        
+        PendingIntent contentIntent = PendingIntent.getActivity(context, deadlineId, detailIntent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 
         Intent doneIntent = new Intent(context, ReminderReceiver.class);
         doneIntent.setAction(ACTION_MARK_DONE);
-        doneIntent.putExtra("EXTRA_DEADLINE_ID", deadlineId);
+        doneIntent.putExtra(AddEditDeadlineActivity.EXTRA_DEADLINE_ID, deadlineId);
         PendingIntent pDoneIntent = PendingIntent.getBroadcast(context, deadlineId, doneIntent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, DeadlineDeskApp.CHANNEL_ID)
-                .setSmallIcon(android.R.drawable.ic_dialog_alert)
-                .setContentTitle(module != null && !module.isEmpty() ? module + ": " + title : title)
-                .setContentText("Deadline is approaching!")
+        Intent snoozeIntent = new Intent(context, ReminderReceiver.class);
+        snoozeIntent.setAction(ACTION_SNOOZE);
+        snoozeIntent.putExtras(intent);
+        PendingIntent pSnoozeIntent = PendingIntent.getBroadcast(context, deadlineId + 10_000, snoozeIntent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+
+        String channelId = DeadlineDeskApp.CHANNEL_ID;
+        String contentTitle = "Academic Priority Alert";
+        if (priority != null && priority.equalsIgnoreCase("High")) {
+            contentTitle = "URGENT: " + contentTitle;
+        }
+
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, channelId)
+                .setSmallIcon(R.drawable.ic_notification_small)
+                .setContentTitle(contentTitle)
+            .setContentText((module != null ? module + ": " : "") + title + " is due in 1 hour.")
+                .setStyle(new NotificationCompat.BigTextStyle()
+                .bigText((module != null ? module + ": " : "") + title + " is due in 1 hour.\n"
+                    + "Review your work before the final push."))
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setContentIntent(contentIntent)
                 .setAutoCancel(true)
-                .addAction(android.R.drawable.ic_menu_edit, "Mark Done", pDoneIntent);
+                .setColor(context.getColor(R.color.primary))
+            .addAction(R.drawable.ic_done, context.getString(R.string.mark_as_done), pDoneIntent)
+            .addAction(R.drawable.ic_snooze, context.getString(R.string.snooze_15_minutes), pSnoozeIntent);
 
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
         if (ActivityCompat.checkSelfPermission(context, android.Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED) {

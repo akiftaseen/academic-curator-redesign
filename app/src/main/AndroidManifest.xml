@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.deadlinedesk">
+    >
 
     <!-- Permissions for reminders -->
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
@@ -30,6 +30,7 @@
         </activity>
 
         <activity android:name=".ui.AddEditDeadlineActivity" />
+        <activity android:name=".ui.DeadlineDetailActivity" />
 
         <receiver android:name=".receiver.ReminderReceiver" />
         <receiver android:name=".receiver.BootReceiver" android:exported="false">

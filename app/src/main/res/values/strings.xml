@@ -1,4 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">DeadlineDesk</string>
+    <string name="app_name">Scholar Slate</string>
+    <string name="title_calendar">Calendar</string>
+    <string name="title_tasks">Tasks</string>
+    <string name="title_profile">Settings</string>
+    <string name="label_settings">CURATOR SETTINGS</string>
+    <string name="settings_title">Workspace Preferences</string>
+    <string name="settings_subtitle">Tune reminders, visibility, and calendar sync behavior.</string>
+    <string name="settings_reminder">Reminder Rhythm</string>
+    <string name="settings_reminder_desc">Snooze and pre-deadline windows are active.</string>
+    <string name="settings_view">View Density</string>
+    <string name="settings_view_desc">Editorial spacing is enabled across screens.</string>
+    <string name="today_deadlines">Today\'s Deadlines</string>
+    <string name="no_deadlines_today">All Clear for Today!</string>
+    <string name="no_deadlines_desc">No deadlines for this date. Time for a well-deserved break or some light reading.</string>
+    <string name="no_upcoming_title">The slate is clean.</string>
+    <string name="no_upcoming_desc">You have no upcoming deadlines. Time to relax or prepare ahead!</string>
+    <string name="add_new_assignment">Add New Assignment</string>
+    <string name="explore_resources">Explore Resources</string>
+    <string name="add_to_calendar">Add to Calendar</string>
+    <string name="assignment_notes">Assignment Notes</string>
+    <string name="reminders_label">REMINDERS</string>
+
+    <string name="new_assignment">New Assignment</string>
+    <string name="edit_assignment">Edit Assignment</string>
+    <string name="assignment_details">Assignment Details</string>
+    <string name="save">Save</string>
+    <string name="delete">Delete</string>
+    <string name="delete_assignment">Delete Assignment</string>
+
+    <string name="label_assignment_title">ASSIGNMENT TITLE</string>
+    <string name="hint_title">e.g. Macroeconomics Paper</string>
+    <string name="label_module">Module</string>
+    <string name="hint_module">ECON402</string>
+    <string name="label_priority">Priority</string>
+    <string name="label_date">Date</string>
+    <string name="label_time">Time</string>
+    <string name="label_notes">Notes</string>
+    <string name="hint_notes">Add instructions or details...</string>
+    <string name="mark_as_done">Mark as Done</string>
+    <string name="mark_as_pending">Mark as Pending</string>
+    <string name="snooze_15_minutes">Snooze (15m)</string>
+    <string name="msg_calendar_app_not_found">No calendar app found</string>
+
+    <string name="focus_mode_title">Focus Mode</string>
+    <string name="focus_mode_desc">Assignments with high priority are automatically curated for deep work.</string>
+
+    <string name="priority_high">HIGH PRIORITY</string>
+    <string name="priority_medium">MEDIUM PRIORITY</string>
+    <string name="priority_low">LOW PRIORITY</string>
+
+    <string name="msg_assignment_saved">Assignment saved</string>
+    <string name="msg_assignment_updated">Assignment updated</string>
+    <string name="msg_assignment_deleted">Assignment deleted</string>
+    <string name="msg_enter_title">Please enter a title</string>
+    <string name="msg_marked_done">Marked as done</string>
+    <string name="msg_marked_pending">Marked as pending</string>
+
+    <string name="label_curated_list">CURATED LIST</string>
+    <string name="title_upcoming">Upcoming</string>
+    <string name="label_agenda_view">AGENDA VIEW</string>
+    <string name="tasks_remaining">Tasks Remaining</string>
+
+    <string name="label_notification">Notification</string>
+    <string name="label_notification_desc">Get reminded before the deadline</string>
+    <string name="prev_month">Previous Month</string>
+    <string name="next_month">Next Month</string>
+    <string name="go_to_today">Today</string>
+    <string name="empty_state_icon_desc">Empty state icon</string>
+    <string name="priority_icon_desc">Priority Icon</string>
+
+    <string-array name="reminder_options">
+        <item>1 hour before</item>
+        <item>3 hours before</item>
+        <item>1 day before</item>
+        <item>2 days before</item>
+    </string-array>
 </resources>

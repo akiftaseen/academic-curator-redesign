@@ -14,6 +14,7 @@ public class Deadline {
     private String priority;
     private String notes;
     private boolean isDone;
+    private int reminderMinutes; // New field for custom reminder time
 
     // Zero-argument constructor
     public Deadline() {}
@@ -39,4 +40,7 @@ public class Deadline {
 
     public boolean isDone() { return isDone; }
     public void setDone(boolean done) { isDone = done; }
+
+    public int getReminderMinutes() { return reminderMinutes; }
+    public void setReminderMinutes(int reminderMinutes) { this.reminderMinutes = reminderMinutes; }
 }

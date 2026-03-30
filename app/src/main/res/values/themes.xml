@@ -14,6 +14,8 @@
         <item name="colorOnTertiaryContainer">@color/on_tertiary_container</item>
 
         <!-- Surface Colors -->
+        <item name="colorSecondaryContainer">@color/primary_fixed_dim</item>
+        <item name="colorOnSecondaryContainer">@color/on_primary_fixed</item>
         <item name="android:colorBackground">@color/surface</item>
         <item name="colorOnBackground">@color/on_surface</item>
         <item name="colorSurface">@color/surface</item>
@@ -21,11 +23,7 @@
         <item name="colorSurfaceVariant">@color/surface_variant</item>
         <item name="colorOnSurfaceVariant">@color/on_surface_variant</item>
 
-        <!-- Other Colors -->
-        <item name="colorError">@color/error</item>
-        <item name="colorOnError">@color/on_error</item>
-
-        <!-- Customize Navigation Bar -->
+        <!-- Navigation Bar -->
         <item name="android:navigationBarColor">@color/surface_container_lowest</item>
         <item name="android:windowLightNavigationBar">true</item>
         <item name="android:statusBarColor">@color/surface</item>
@@ -84,7 +82,16 @@
 
     <style name="ShapeAppearance.DeadlineDesk.Large" parent="ShapeAppearance.Material3.LargeComponent">
         <item name="cornerFamily">rounded</item>
-        <item name="cornerSize">16dp</item>
+        <item name="cornerSize">24dp</item>
+    </style>
+
+    <!-- Custom CalendarView Style -->
+    <style name="Widget.DeadlineDesk.CalendarView" parent="android:Widget.CalendarView">
+        <item name="android:selectedWeekBackgroundColor">@android:color/transparent</item>
+        <item name="android:focusedMonthDateColor">@color/primary</item>
+        <item name="android:unfocusedMonthDateColor">@color/outline_variant</item>
+        <item name="android:weekSeparatorLineColor">@android:color/transparent</item>
+        <item name="android:showWeekNumber">false</item>
     </style>
 
 </resources>

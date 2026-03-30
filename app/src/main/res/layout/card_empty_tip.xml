@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    android:background="@drawable/bg_rounded_xl"
+    android:backgroundTint="@color/surface_container_lowest"
+    android:padding="24dp"
+    android:layout_marginTop="16dp"
+    android:elevation="0dp"
+    android:outlineAmbientShadowColor="@color/on_surface"
+    android:outlineSpotShadowColor="@color/on_surface">
+
+    <FrameLayout
+        android:id="@+id/tip_icon_bg"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:background="@drawable/bg_rounded_xl"
+        android:backgroundTint="#33A5D6A7"
+        android:layout_marginEnd="16dp">
+        <ImageView
+            android:id="@+id/tip_icon"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_priority"
+            app:tint="#A5D6A7" />
+    </FrameLayout>
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/tip_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Weekly Review"
+            android:textColor="@color/primary"
+            android:textStyle="bold"
+            android:textSize="14sp"
+            android:layout_marginBottom="4dp"
+            android:fontFamily="@font/manrope" />
+        <TextView
+            android:id="@+id/tip_desc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Review your progress for the semester and set new goals for next week."
+            android:textColor="@color/on_surface_variant"
+            android:textSize="12sp"
+            android:lineSpacingExtra="1dp"
+            android:fontFamily="@font/inter" />
+    </LinearLayout>
+</LinearLayout>
