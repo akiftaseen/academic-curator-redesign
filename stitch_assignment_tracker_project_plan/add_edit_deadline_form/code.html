@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>New Assignment - Scholar Slate</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "on-tertiary-container": "#fcb100",
+                        "on-primary-container": "#94c5ee",
+                        "on-background": "#181c20",
+                        "error": "#ba1a1a",
+                        "surface-container-lowest": "#ffffff",
+                        "tertiary": "#4b3200",
+                        "background": "#f7f9fe",
+                        "primary-fixed-dim": "#9bccf6",
+                        "on-primary": "#ffffff",
+                        "surface": "#f7f9fe",
+                        "on-surface": "#181c20",
+                        "inverse-surface": "#2d3135",
+                        "primary-container": "#1a5276",
+                        "surface-variant": "#dfe3e8",
+                        "inverse-primary": "#9bccf6",
+                        "secondary": "#4c616c",
+                        "on-tertiary-fixed": "#281900",
+                        "secondary-fixed": "#cfe6f2",
+                        "primary": "#003b5a",
+                        "tertiary-fixed": "#ffdeac",
+                        "on-error": "#ffffff",
+                        "primary-fixed": "#cbe6ff",
+                        "on-tertiary": "#ffffff",
+                        "on-surface-variant": "#41474e",
+                        "secondary-container": "#cfe6f2",
+                        "surface-container": "#ebeef3",
+                        "on-error-container": "#93000a",
+                        "surface-container-highest": "#dfe3e8",
+                        "outline-variant": "#c1c7cf",
+                        "on-tertiary-fixed-variant": "#604100",
+                        "surface-container-low": "#f1f4f9",
+                        "secondary-fixed-dim": "#b4cad6",
+                        "on-secondary-fixed": "#071e27",
+                        "outline": "#72787f",
+                        "on-primary-fixed-variant": "#0e4b6e",
+                        "tertiary-container": "#694700",
+                        "on-secondary": "#ffffff",
+                        "inverse-on-surface": "#eef1f6",
+                        "on-secondary-container": "#526772",
+                        "surface-tint": "#2f6388",
+                        "on-primary-fixed": "#001e30",
+                        "surface-dim": "#d7dadf",
+                        "on-secondary-fixed-variant": "#354a53",
+                        "tertiary-fixed-dim": "#ffba38",
+                        "surface-container-high": "#e5e8ed",
+                        "surface-bright": "#f7f9fe",
+                        "error-container": "#ffdad6"
+                    },
+                    fontFamily: {
+                        "headline": ["Manrope"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            background-color: #f7f9fe;
+            color: #181c20;
+            font-family: 'Inter', sans-serif;
+        }
+        .editorial-shadow {
+            box-shadow: 0 8px 24px rgba(24, 28, 32, 0.06);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface selection:bg-primary-fixed selection:text-on-primary-fixed">
+<!-- TopAppBar (Based on Shared Component JSON for Contextual Shell) -->
+<header class="sticky top-0 w-full z-40 bg-slate-50 flex justify-between items-center px-6 py-4">
+<div class="flex items-center gap-4">
+<button class="hover:bg-slate-100 rounded-full p-2 transition-colors active:opacity-80">
+<span class="material-symbols-outlined text-sky-900" data-icon="close">close</span>
+</button>
+<h1 class="font-['Manrope'] font-bold text-xl tracking-tight text-sky-900">New Assignment</h1>
+</div>
+<button class="bg-primary hover:bg-primary-container text-white px-6 py-2 rounded-full font-['Inter'] font-semibold text-sm transition-all active:scale-95">
+            Save
+        </button>
+</header>
+<main class="max-w-screen-md mx-auto px-6 py-10 space-y-12 pb-32">
+<!-- Hero Input Section (Title) -->
+<section class="space-y-2">
+<label class="font-['Manrope'] font-bold text-sm uppercase tracking-widest text-secondary ml-1">Assignment Title</label>
+<input class="w-full bg-surface-container-highest border-none rounded-t-xl border-b-2 border-primary focus:ring-0 focus:border-primary-container text-2xl font-['Manrope'] font-extrabold p-4 placeholder:text-outline/50 transition-all" placeholder="e.g. Advanced Macroeconomics Term Paper" type="text"/>
+</section>
+<!-- Bento Form Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<!-- Module Selection -->
+<div class="bg-surface-container-low p-6 rounded-xl space-y-4">
+<div class="flex items-center gap-2 text-primary">
+<span class="material-symbols-outlined text-[20px]" data-icon="school">school</span>
+<h3 class="font-['Manrope'] font-bold text-sm tracking-tight">Module / Course</h3>
+</div>
+<select class="w-full bg-surface-container-lowest border-none rounded-lg text-on-surface font-medium focus:ring-2 focus:ring-primary-fixed-dim py-3">
+<option>ECON402 - Macro Theory</option>
+<option>MATH201 - Linear Algebra</option>
+<option>HIST110 - Modern World History</option>
+<option>CS305 - Data Structures</option>
+</select>
+</div>
+<!-- Priority Selector -->
+<div class="bg-surface-container-low p-6 rounded-xl space-y-4">
+<div class="flex items-center gap-2 text-primary">
+<span class="material-symbols-outlined text-[20px]" data-icon="priority_high">priority_high</span>
+<h3 class="font-['Manrope'] font-bold text-sm tracking-tight">Priority Level</h3>
+</div>
+<div class="flex gap-2">
+<button class="flex-1 py-2 px-3 bg-surface-container-lowest rounded-lg border-2 border-transparent hover:border-outline-variant focus:border-primary text-xs font-bold transition-all">LOW</button>
+<button class="flex-1 py-2 px-3 bg-surface-container-lowest rounded-lg border-2 border-transparent hover:border-outline-variant focus:border-primary text-xs font-bold transition-all">MEDIUM</button>
+<button class="flex-1 py-2 px-3 bg-tertiary-fixed text-on-tertiary-fixed rounded-lg border-2 border-tertiary-fixed-dim text-xs font-bold transition-all">HIGH</button>
+</div>
+</div>
+<!-- Date & Time Row -->
+<div class="md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6">
+<!-- Date Picker -->
+<div class="bg-surface-container-low p-6 rounded-xl space-y-4">
+<div class="flex items-center gap-2 text-primary">
+<span class="material-symbols-outlined text-[20px]" data-icon="calendar_today">calendar_today</span>
+<h3 class="font-['Manrope'] font-bold text-sm tracking-tight">Deadline Date</h3>
+</div>
+<div class="flex items-center justify-between bg-surface-container-lowest p-4 rounded-lg cursor-pointer hover:bg-white transition-colors">
+<span class="text-on-surface font-medium">October 24, 2024</span>
+<span class="material-symbols-outlined text-outline" data-icon="event">event</span>
+</div>
+</div>
+<!-- Time Picker -->
+<div class="bg-surface-container-low p-6 rounded-xl space-y-4">
+<div class="flex items-center gap-2 text-primary">
+<span class="material-symbols-outlined text-[20px]" data-icon="schedule">schedule</span>
+<h3 class="font-['Manrope'] font-bold text-sm tracking-tight">Submission Time</h3>
+</div>
+<div class="flex items-center justify-between bg-surface-container-lowest p-4 rounded-lg cursor-pointer hover:bg-white transition-colors">
+<span class="text-on-surface font-medium">11:59 PM</span>
+<span class="material-symbols-outlined text-outline" data-icon="timer">timer</span>
+</div>
+</div>
+</div>
+<!-- Reminder Spinner -->
+<div class="md:col-span-2 bg-surface-container-low p-6 rounded-xl flex items-center justify-between">
+<div class="flex items-center gap-4">
+<div class="p-3 bg-primary-fixed-dim rounded-full text-on-primary-fixed">
+<span class="material-symbols-outlined" data-icon="notifications_active">notifications_active</span>
+</div>
+<div>
+<h3 class="font-['Manrope'] font-bold text-sm tracking-tight">Notification</h3>
+<p class="text-xs text-secondary font-medium">Get reminded before the deadline</p>
+</div>
+</div>
+<select class="bg-surface-container-lowest border-none rounded-full px-6 text-sm font-bold text-primary focus:ring-2 focus:ring-primary-fixed-dim">
+<option>1 hour before</option>
+<option>3 hours before</option>
+<option>1 day before</option>
+<option>2 days before</option>
+</select>
+</div>
+<!-- Notes Area -->
+<div class="md:col-span-2 bg-surface-container-low p-6 rounded-xl space-y-4">
+<div class="flex items-center gap-2 text-primary">
+<span class="material-symbols-outlined text-[20px]" data-icon="notes">notes</span>
+<h3 class="font-['Manrope'] font-bold text-sm tracking-tight">Notes &amp; Instructions</h3>
+</div>
+<textarea class="w-full bg-surface-container-lowest border-none rounded-xl p-4 text-on-surface placeholder:text-outline/40 focus:ring-2 focus:ring-primary-fixed-dim resize-none font-['Inter'] leading-relaxed" placeholder="Add specific requirements, submission links, or project details..." rows="4"></textarea>
+</div>
+</div>
+<!-- Decorative Illustration Card -->
+<div class="relative overflow-hidden rounded-3xl h-32 bg-primary flex items-center px-10">
+<div class="z-10">
+<h4 class="text-primary-fixed-dim font-['Manrope'] font-extrabold text-lg">Focus Mode</h4>
+<p class="text-on-primary-container text-xs max-w-[200px] mt-1">Assignments with high priority are automatically synced to your deep-work calendar.</p>
+</div>
+<div class="absolute right-0 top-0 h-full w-1/2 opacity-20">
+<div class="w-full h-full bg-gradient-to-l from-primary-container to-transparent"></div>
+</div>
+<img class="absolute -right-10 -top-10 w-48 h-48 object-contain opacity-40 mix-blend-overlay" data-alt="abstract architectural blueprint with clean geometric lines in slate blue and white minimalist style" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD4lZq-hzE2TNYJl3Cqsz8HlPiKWl5lkqE3RhhV1VBXAbcj1ssolD82on76K_P1WKxodQPxuUmMZCE_DdG5-f1tpjYR6yHXF4BqmNZZ1aHUHC6PSXbwt2rXb-y18B7iH0O784k6YzskfOmI75mOTxBLFkPJpLUGUYnds6eA82MCE_hWmb7uizlI4ViF9VdLU7Wus7ldkEIdhVHD2GQsb4H3VzhGadxSQ1Fg_a-BSDe4bjTyhhfMRcKQC8kLVOQntCzBicJapyEjfIY"/>
+</div>
+</main>
+<!-- Suppressed BottomNavBar based on Task-Focused Shell visibility rules -->
+<!-- Content prioritizes the 'Save' transaction -->
+</body></html>

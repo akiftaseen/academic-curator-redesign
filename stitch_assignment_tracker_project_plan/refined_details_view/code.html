@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700;800&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-tertiary-container": "#fcb100",
+              "on-primary-container": "#94c5ee",
+              "on-background": "#181c20",
+              "error": "#ba1a1a",
+              "surface-container-lowest": "#ffffff",
+              "tertiary": "#4b3200",
+              "background": "#f7f9fe",
+              "primary-fixed-dim": "#9bccf6",
+              "on-primary": "#ffffff",
+              "surface": "#f7f9fe",
+              "on-surface": "#181c20",
+              "inverse-surface": "#2d3135",
+              "primary-container": "#1a5276",
+              "surface-variant": "#dfe3e8",
+              "inverse-primary": "#9bccf6",
+              "secondary": "#4c616c",
+              "on-tertiary-fixed": "#281900",
+              "secondary-fixed": "#cfe6f2",
+              "primary": "#003b5a",
+              "tertiary-fixed": "#ffdeac",
+              "on-error": "#ffffff",
+              "primary-fixed": "#cbe6ff",
+              "on-tertiary": "#ffffff",
+              "on-surface-variant": "#41474e",
+              "secondary-container": "#cfe6f2",
+              "surface-container": "#ebeef3",
+              "on-error-container": "#93000a",
+              "surface-container-highest": "#dfe3e8",
+              "outline-variant": "#c1c7cf",
+              "on-tertiary-fixed-variant": "#604100",
+              "surface-container-low": "#f1f4f9",
+              "secondary-fixed-dim": "#b4cad6",
+              "on-secondary-fixed": "#071e27",
+              "outline": "#72787f",
+              "on-primary-fixed-variant": "#0e4b6e",
+              "tertiary-container": "#694700",
+              "on-secondary": "#ffffff",
+              "inverse-on-surface": "#eef1f6",
+              "on-secondary-container": "#526772",
+              "surface-tint": "#2f6388",
+              "on-primary-fixed": "#001e30",
+              "surface-dim": "#d7dadf",
+              "on-secondary-fixed-variant": "#354a53",
+              "tertiary-fixed-dim": "#ffba38",
+              "surface-container-high": "#e5e8ed",
+              "surface-bright": "#f7f9fe",
+              "error-container": "#ffdad6"
+            },
+            fontFamily: {
+              "headline": ["Manrope"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+      body {
+        font-family: 'Inter', sans-serif;
+        background-color: #f7f9fe;
+        color: #181c20;
+      }
+      .editorial-header {
+        font-family: 'Manrope', sans-serif;
+      }
+      .no-scrollbar::-webkit-scrollbar {
+          display: none;
+      }
+      .prose-container {
+        line-height: 1.7;
+      }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="bg-surface selection:bg-primary-fixed selection:text-on-primary-fixed min-h-screen pb-40">
+<!-- TopAppBar -->
+<header class="sticky top-0 w-full z-40 bg-white/80 backdrop-blur-md flex justify-between items-center px-6 py-4 border-b border-surface-container">
+<div class="flex items-center gap-4">
+<button class="hover:bg-surface-container-low rounded-full transition-colors p-2 active:opacity-80">
+<span class="material-symbols-outlined text-primary font-bold" data-icon="arrow_back">arrow_back</span>
+</button>
+<h1 class="font-['Manrope'] font-bold text-lg tracking-tight text-primary">Assignment Details</h1>
+</div>
+<button class="hover:bg-surface-container-low rounded-full transition-colors p-2 active:opacity-80">
+<span class="material-symbols-outlined text-primary" data-icon="edit">edit</span>
+</button>
+</header>
+<main class="px-6 mt-8 max-w-screen-md mx-auto space-y-10">
+<!-- Hero Section: Title & Metadata -->
+<section class="space-y-6">
+<div class="space-y-3">
+<span class="inline-flex items-center px-4 py-1.5 rounded-full bg-tertiary text-white text-[11px] font-black tracking-[0.1em] uppercase shadow-sm">
+                    High Priority
+                </span>
+<h2 class="editorial-header text-4xl md:text-5xl font-extrabold text-primary tracking-tight leading-[1.15]">
+                    Advanced Neural Networks Final Thesis
+                </h2>
+</div>
+<div class="flex flex-wrap gap-4 items-center">
+<div class="flex items-center gap-2.5 px-4 py-2.5 bg-surface-container-high rounded-2xl shadow-sm">
+<span class="material-symbols-outlined text-primary" data-icon="school">school</span>
+<span class="text-sm font-bold text-on-surface">CS502: Machine Learning</span>
+</div>
+<div class="flex items-center gap-2.5 px-4 py-2.5 bg-surface-container-high rounded-2xl shadow-sm">
+<span class="material-symbols-outlined text-primary" data-icon="event">event</span>
+<span class="text-sm font-bold text-on-surface">Oct 24, 2024 • 11:59 PM</span>
+</div>
+</div>
+</section>
+<!-- Asymmetric Bento-style Layout for Details -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-8">
+<!-- Notes Content (Larger Column) -->
+<section class="md:col-span-8 bg-white rounded-[2.5rem] p-8 md:p-10 shadow-sm border border-surface-container-low">
+<div class="flex items-center gap-3 mb-6">
+<span class="material-symbols-outlined text-primary" data-icon="description">description</span>
+<h3 class="font-headline font-extrabold text-xl text-primary">Assignment Notes</h3>
+</div>
+<div class="prose-container text-on-surface-variant space-y-6 font-body text-base md:text-lg">
+<p class="font-medium leading-relaxed">Focus on the implementation of Transformer architectures and their specific efficiency improvements in large-scale datasets. Ensure all LaTeX equations are properly formatted in the appendix.</p>
+<div class="bg-surface-container-lowest border-l-4 border-primary p-6 rounded-r-2xl space-y-4">
+<p class="font-bold text-primary uppercase text-xs tracking-widest">Key Requirements</p>
+<ul class="space-y-3 pl-1">
+<li class="flex items-start gap-3">
+<span class="text-primary mt-1">•</span>
+<span class="font-semibold">Minimum 15,000 words</span>
+</li>
+<li class="flex items-start gap-3">
+<span class="text-primary mt-1">•</span>
+<span class="font-semibold">Must include Python performance benchmarks</span>
+</li>
+<li class="flex items-start gap-3">
+<span class="text-primary mt-1">•</span>
+<span class="font-semibold">Submit in PDF/A format</span>
+</li>
+</ul>
+</div>
+<p class="text-sm opacity-80 leading-relaxed italic">Refer to the rubric provided in the module handbook under Section 4.2 for specific grading criteria regarding visual data representation.</p>
+</div>
+</section>
+<!-- Reminders & Actions (Sidebar Column) -->
+<div class="md:col-span-4 space-y-8">
+<!-- Reminder Section -->
+<section class="bg-surface-container rounded-[2rem] p-6 space-y-6">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary scale-90" data-icon="notifications_active">notifications_active</span>
+<h3 class="font-headline font-black text-xs text-primary uppercase tracking-[0.15em]">Reminders</h3>
+</div>
+<div class="space-y-3">
+<div class="flex items-center justify-between bg-white p-4 rounded-2xl shadow-sm border border-surface-container-highest/10">
+<span class="text-sm font-bold text-on-surface">2 days before</span>
+<span class="material-symbols-outlined text-primary" data-icon="check_circle" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<div class="flex items-center justify-between bg-white/50 p-4 rounded-2xl border border-dashed border-outline-variant">
+<span class="text-sm font-semibold text-outline">1 hour before</span>
+<span class="material-symbols-outlined text-outline" data-icon="radio_button_unchecked">radio_button_unchecked</span>
+</div>
+</div>
+</section>
+<!-- Calendar Integration - Secondary Style -->
+<button class="w-full flex items-center justify-center gap-3 py-5 rounded-[2rem] bg-surface-container-highest text-on-surface font-headline font-bold text-sm hover:bg-outline-variant transition-all active:scale-[0.98] border border-surface-variant">
+<span class="material-symbols-outlined" data-icon="calendar_add_on">calendar_add_on</span>
+                    Add to Calendar
+                </button>
+</div>
+</div>
+<!-- Decorative Context Image -->
+<div class="relative h-56 w-full rounded-[2.5rem] overflow-hidden group">
+<img alt="Academic study space" class="w-full h-full object-cover grayscale opacity-40 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-1000 ease-out" data-alt="Minimalist student desk with a laptop, open notebook, and espresso cup in soft morning natural lighting, clean aesthetic" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBY0leDFW6hbZRGrwsRn4LaClw3Ae7ViAd6FLh-1B3-s2Tn9GHgbWxHc7mu_vUl1IRor-32PuBQapo3FC7n_dU9p3ApFMBeNAleO-5V7Q6WBmEjkNv3b2nzX87LaZlhiRz9y4Ej89LxBLlH1c5tSvGqM_DxsgcOoP96UGLAd5mPot5TrO9Gwvoe_Fn64lM3RcdPKP33Fm0w5RaumTIHNd4altGB7GHcH8wQUS8FEb6kTFhMRj-nFq4QPIIvC7Ufnh_QcKigoTtNLys"/>
+<div class="absolute inset-0 bg-gradient-to-t from-surface via-transparent to-transparent opacity-60"></div>
+</div>
+</main>
+<!-- Fixed Action Bar (Primary Style) -->
+<div class="fixed bottom-0 left-0 w-full p-8 z-50 pointer-events-none">
+<div class="max-w-screen-md mx-auto flex justify-center">
+<button class="pointer-events-auto flex items-center gap-3 px-14 py-5 rounded-full bg-primary text-white font-headline font-black text-lg shadow-2xl hover:bg-primary-container transition-all hover:scale-105 active:scale-95">
+<span class="material-symbols-outlined" data-icon="task_alt" style="font-variation-settings: 'FILL' 1;">task_alt</span>
+                Mark as Done
+            </button>
+</div>
+</div>
+</body></html>

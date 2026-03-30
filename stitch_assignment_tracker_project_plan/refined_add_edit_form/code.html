@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>New Assignment - Scholar Slate</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "on-tertiary-container": "#fcb100",
+                        "on-primary-container": "#94c5ee",
+                        "on-background": "#181c20",
+                        "error": "#ba1a1a",
+                        "surface-container-lowest": "#ffffff",
+                        "tertiary": "#4b3200",
+                        "background": "#f7f9fe",
+                        "primary-fixed-dim": "#9bccf6",
+                        "on-primary": "#ffffff",
+                        "surface": "#f7f9fe",
+                        "on-surface": "#181c20",
+                        "inverse-surface": "#2d3135",
+                        "primary-container": "#1a5276",
+                        "surface-variant": "#dfe3e8",
+                        "inverse-primary": "#9bccf6",
+                        "secondary": "#4c616c",
+                        "on-tertiary-fixed": "#281900",
+                        "secondary-fixed": "#cfe6f2",
+                        "primary": "#003b5a",
+                        "tertiary-fixed": "#ffdeac",
+                        "on-error": "#ffffff",
+                        "primary-fixed": "#cbe6ff",
+                        "on-tertiary": "#ffffff",
+                        "on-surface-variant": "#41474e",
+                        "secondary-container": "#cfe6f2",
+                        "surface-container": "#ebeef3",
+                        "on-error-container": "#93000a",
+                        "surface-container-highest": "#dfe3e8",
+                        "outline-variant": "#c1c7cf",
+                        "on-tertiary-fixed-variant": "#604100",
+                        "surface-container-low": "#f1f4f9",
+                        "secondary-fixed-dim": "#b4cad6",
+                        "on-secondary-fixed": "#071e27",
+                        "outline": "#72787f",
+                        "on-primary-fixed-variant": "#0e4b6e",
+                        "tertiary-container": "#694700",
+                        "on-secondary": "#ffffff",
+                        "inverse-on-surface": "#eef1f6",
+                        "on-secondary-container": "#526772",
+                        "surface-tint": "#2f6388",
+                        "on-primary-fixed": "#001e30",
+                        "surface-dim": "#d7dadf",
+                        "on-secondary-fixed-variant": "#354a53",
+                        "tertiary-fixed-dim": "#ffba38",
+                        "surface-container-high": "#e5e8ed",
+                        "surface-bright": "#f7f9fe",
+                        "error-container": "#ffdad6"
+                    },
+                    fontFamily: {
+                        "headline": ["Manrope"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            background-color: #f7f9fe;
+            color: #181c20;
+            font-family: 'Inter', sans-serif;
+        }
+        .editorial-shadow {
+            box-shadow: 0 8px 24px rgba(24, 28, 32, 0.06);
+        }
+        .segmented-control {
+            display: flex;
+            background: #ebeef3;
+            padding: 4px;
+            border-radius: 12px;
+        }
+        .segmented-item {
+            flex: 1;
+            text-align: center;
+            padding: 8px 0;
+            border-radius: 8px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+        .segmented-item.active {
+            background: white;
+            color: #003b5a;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .segmented-item.active-high {
+            background: #ffba38;
+            color: #281900;
+        }
+    </style>
+<style>
+        body {
+          min-height: max(884px, 100dvh);
+        }
+    </style>
+</head>
+<body class="bg-surface selection:bg-primary-fixed selection:text-on-primary-fixed">
+<!-- TopAppBar -->
+<header class="sticky top-0 w-full z-40 bg-surface/80 backdrop-blur-md border-b border-surface-container flex justify-between items-center px-6 py-4">
+<div class="flex items-center gap-4">
+<button class="hover:bg-surface-container rounded-full p-2 transition-colors active:opacity-80">
+<span class="material-symbols-outlined text-primary" data-icon="close">close</span>
+</button>
+<h1 class="font-['Manrope'] font-bold text-xl tracking-tight text-primary">New Assignment</h1>
+</div>
+<button class="bg-primary hover:bg-primary-container text-white px-8 py-2.5 rounded-full font-['Inter'] font-semibold text-sm transition-all active:scale-95 shadow-sm">
+            Save
+        </button>
+</header>
+<main class="max-w-screen-md mx-auto px-6 py-8 space-y-8 pb-32">
+<!-- Hero Input Section (Title) -->
+<section class="space-y-3">
+<label class="flex items-center gap-2 font-['Manrope'] font-bold text-xs uppercase tracking-widest text-secondary ml-1" for="assignment-title">
+<span class="material-symbols-outlined text-sm" data-icon="edit_note">edit_note</span>
+                Assignment Title
+            </label>
+<input class="w-full bg-surface-container-highest border-0 border-b-2 border-primary focus:ring-0 focus:border-primary-container text-2xl font-['Manrope'] font-extrabold p-5 rounded-t-2xl placeholder:text-outline/40 transition-all" id="assignment-title" placeholder="e.g. Advanced Macroeconomics Term Paper" type="text"/>
+</section>
+<!-- Bento Form Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+<!-- Module Selection -->
+<div class="bg-surface-container-low p-6 rounded-2xl border border-surface-variant/30 space-y-4">
+<div class="flex items-center gap-2 text-primary">
+<span class="material-symbols-outlined text-[20px]" data-icon="school">school</span>
+<label class="font-['Manrope'] font-bold text-sm tracking-tight">Module / Course</label>
+</div>
+<div class="relative">
+<select class="w-full bg-surface-container-lowest border border-outline-variant/30 rounded-xl text-on-surface font-semibold focus:ring-2 focus:ring-primary-fixed-dim py-3.5 px-4 appearance-none">
+<option>ECON402 - Macro Theory</option>
+<option>MATH201 - Linear Algebra</option>
+<option>HIST110 - Modern World History</option>
+<option>CS305 - Data Structures</option>
+</select>
+<span class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-outline pointer-events-none" data-icon="expand_more">expand_more</span>
+</div>
+</div>
+<!-- Priority Selector (Segmented Button Style) -->
+<div class="bg-surface-container-low p-6 rounded-2xl border border-surface-variant/30 space-y-4">
+<div class="flex items-center gap-2 text-primary">
+<span class="material-symbols-outlined text-[20px]" data-icon="bolt">bolt</span>
+<label class="font-['Manrope'] font-bold text-sm tracking-tight">Priority Level</label>
+</div>
+<div class="segmented-control">
+<div class="segmented-item">LOW</div>
+<div class="segmented-item">MEDIUM</div>
+<div class="segmented-item active active-high">HIGH</div>
+</div>
+</div>
+<!-- Date & Time Row -->
+<div class="md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-8">
+<!-- Date Picker -->
+<div class="bg-surface-container-low p-6 rounded-2xl border border-surface-variant/30 space-y-4">
+<div class="flex items-center gap-2 text-primary">
+<span class="material-symbols-outlined text-[20px]" data-icon="calendar_today">calendar_today</span>
+<label class="font-['Manrope'] font-bold text-sm tracking-tight">Deadline Date</label>
+</div>
+<div class="flex items-center justify-between bg-surface-container-lowest border border-outline-variant/30 p-4 rounded-xl cursor-pointer hover:border-primary-fixed-dim transition-colors group">
+<span class="text-on-surface font-semibold">October 24, 2024</span>
+<span class="material-symbols-outlined text-outline group-hover:text-primary" data-icon="event">event</span>
+</div>
+</div>
+<!-- Time Picker -->
+<div class="bg-surface-container-low p-6 rounded-2xl border border-surface-variant/30 space-y-4">
+<div class="flex items-center gap-2 text-primary">
+<span class="material-symbols-outlined text-[20px]" data-icon="schedule">schedule</span>
+<label class="font-['Manrope'] font-bold text-sm tracking-tight">Submission Time</label>
+</div>
+<div class="flex items-center justify-between bg-surface-container-lowest border border-outline-variant/30 p-4 rounded-xl cursor-pointer hover:border-primary-fixed-dim transition-colors group">
+<span class="text-on-surface font-semibold">11:59 PM</span>
+<span class="material-symbols-outlined text-outline group-hover:text-primary" data-icon="timer">timer</span>
+</div>
+</div>
+</div>
+<!-- Reminder Spinner -->
+<div class="md:col-span-2 bg-surface-container-low p-5 rounded-2xl border border-surface-variant/30 flex items-center justify-between">
+<div class="flex items-center gap-4">
+<div class="p-3 bg-primary-fixed-dim rounded-full text-on-primary-fixed">
+<span class="material-symbols-outlined" data-icon="notifications_active">notifications_active</span>
+</div>
+<div>
+<h3 class="font-['Manrope'] font-bold text-sm tracking-tight">Notification</h3>
+<p class="text-xs text-secondary font-medium">Get reminded before the deadline</p>
+</div>
+</div>
+<div class="relative">
+<select class="bg-surface-container-lowest border border-outline-variant/30 rounded-full pl-6 pr-10 py-2 text-sm font-bold text-primary focus:ring-2 focus:ring-primary-fixed-dim appearance-none cursor-pointer">
+<option>1 hour before</option>
+<option>3 hours before</option>
+<option>1 day before</option>
+<option>2 days before</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-primary text-sm pointer-events-none" data-icon="expand_more">expand_more</span>
+</div>
+</div>
+<!-- Notes Area -->
+<div class="md:col-span-2 bg-surface-container-low p-6 rounded-2xl border border-surface-variant/30 space-y-4">
+<div class="flex items-center gap-2 text-primary">
+<span class="material-symbols-outlined text-[20px]" data-icon="notes">notes</span>
+<label class="font-['Manrope'] font-bold text-sm tracking-tight">Notes &amp; Instructions</label>
+</div>
+<textarea class="w-full bg-surface-container-lowest border border-outline-variant/30 rounded-xl p-4 text-on-surface placeholder:text-outline/40 focus:ring-2 focus:ring-primary-fixed-dim resize-none font-['Inter'] leading-relaxed" placeholder="Add specific requirements, submission links, or project details..." rows="5"></textarea>
+</div>
+</div>
+<!-- Decorative Illustration Card -->
+<div class="relative overflow-hidden rounded-3xl h-36 bg-primary flex items-center px-10 shadow-lg">
+<div class="z-10">
+<div class="flex items-center gap-2 text-primary-fixed-dim mb-1">
+<span class="material-symbols-outlined text-sm" data-icon="auto_awesome">auto_awesome</span>
+<h4 class="font-['Manrope'] font-extrabold text-lg">Focus Mode</h4>
+</div>
+<p class="text-on-primary-container text-xs max-w-[220px] leading-relaxed opacity-90">Assignments with high priority are automatically synced to your deep-work calendar for optimized productivity.</p>
+</div>
+<div class="absolute right-0 top-0 h-full w-1/2 opacity-20">
+<div class="w-full h-full bg-gradient-to-l from-primary-container to-transparent"></div>
+</div>
+<img class="absolute -right-10 -top-10 w-56 h-56 object-contain opacity-30 mix-blend-overlay pointer-events-none" data-alt="abstract architectural blueprint with clean geometric lines in slate blue and white minimalist style" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD4lZq-hzE2TNYJl3Cqsz8HlPiKWl5lkqE3RhhV1VBXAbcj1ssolD82on76K_P1WKxodQPxuUmMZCE_DdG5-f1tpjYR6yHXF4BqmNZZ1aHUHC6PSXbwt2rXb-y18B7iH0O784k6YzskfOmI75mOTxBLFkPJpLUGUYnds6eA82MCE_hWmb7uizlI4ViF9VdLU7Wus7ldkEIdhVHD2GQsb4H3VzhGadxSQ1Fg_a-BSDe4bjTyhhfMRcKQC8kLVOQntCzBicJapyEjfIY"/>
+</div>
+</main>
+</body></html>

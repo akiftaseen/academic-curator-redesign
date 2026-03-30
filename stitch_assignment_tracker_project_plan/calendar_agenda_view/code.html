@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Assignments - Scholar Slate</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700;800&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "on-tertiary-container": "#fcb100",
+                        "on-primary-container": "#94c5ee",
+                        "on-background": "#181c20",
+                        "error": "#ba1a1a",
+                        "surface-container-lowest": "#ffffff",
+                        "tertiary": "#4b3200",
+                        "background": "#f7f9fe",
+                        "primary-fixed-dim": "#9bccf6",
+                        "on-primary": "#ffffff",
+                        "surface": "#f7f9fe",
+                        "on-surface": "#181c20",
+                        "inverse-surface": "#2d3135",
+                        "primary-container": "#1a5276",
+                        "surface-variant": "#dfe3e8",
+                        "inverse-primary": "#9bccf6",
+                        "secondary": "#4c616c",
+                        "on-tertiary-fixed": "#281900",
+                        "secondary-fixed": "#cfe6f2",
+                        "primary": "#003b5a",
+                        "tertiary-fixed": "#ffdeac",
+                        "on-error": "#ffffff",
+                        "primary-fixed": "#cbe6ff",
+                        "on-tertiary": "#ffffff",
+                        "on-surface-variant": "#41474e",
+                        "secondary-container": "#cfe6f2",
+                        "surface-container": "#ebeef3",
+                        "on-error-container": "#93000a",
+                        "surface-container-highest": "#dfe3e8",
+                        "outline-variant": "#c1c7cf",
+                        "on-tertiary-fixed-variant": "#604100",
+                        "surface-container-low": "#f1f4f9",
+                        "secondary-fixed-dim": "#b4cad6",
+                        "on-secondary-fixed": "#071e27",
+                        "outline": "#72787f",
+                        "on-primary-fixed-variant": "#0e4b6e",
+                        "tertiary-container": "#694700",
+                        "on-secondary": "#ffffff",
+                        "inverse-on-surface": "#eef1f6",
+                        "on-secondary-container": "#526772",
+                        "surface-tint": "#2f6388",
+                        "on-primary-fixed": "#001e30",
+                        "surface-dim": "#d7dadf",
+                        "on-secondary-fixed-variant": "#354a53",
+                        "tertiary-fixed-dim": "#ffba38",
+                        "surface-container-high": "#e5e8ed",
+                        "surface-bright": "#f7f9fe",
+                        "error-container": "#ffdad6"
+                    },
+                    fontFamily: {
+                        "headline": ["Manrope"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface min-h-screen pb-28">
+<!-- TopAppBar -->
+<header class="sticky top-0 w-full z-40 bg-slate-50 dark:bg-slate-950 flex justify-between items-center px-6 py-4">
+<div class="flex items-center gap-4">
+<button class="hover:bg-slate-100 dark:hover:bg-slate-900 rounded-full transition-colors p-2 active:opacity-80">
+<span class="material-symbols-outlined text-sky-900 dark:text-sky-100" data-icon="menu">menu</span>
+</button>
+<h1 class="font-['Manrope'] font-bold text-xl tracking-tight text-sky-900 dark:text-slate-100">Assignments</h1>
+</div>
+<button class="hover:bg-slate-100 dark:hover:bg-slate-900 rounded-full transition-colors p-2 active:opacity-80">
+<span class="material-symbols-outlined text-sky-900 dark:text-sky-100" data-icon="add">add</span>
+</button>
+</header>
+<main class="max-w-screen-md mx-auto px-6 space-y-8 mt-4">
+<!-- Calendar Section -->
+<section class="bg-surface-container-lowest rounded-3xl p-6 shadow-sm">
+<div class="flex items-center justify-between mb-6">
+<h2 class="font-headline font-bold text-xl text-primary">October 2024</h2>
+<div class="flex gap-2">
+<button class="p-1.5 rounded-full hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="chevron_left">chevron_left</span>
+</button>
+<button class="p-1.5 rounded-full hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="chevron_right">chevron_right</span>
+</button>
+</div>
+</div>
+<!-- Calendar Grid -->
+<div class="grid grid-cols-7 gap-y-4 text-center">
+<!-- Days Header -->
+<div class="font-label text-[10px] font-bold uppercase tracking-widest text-outline">Mon</div>
+<div class="font-label text-[10px] font-bold uppercase tracking-widest text-outline">Tue</div>
+<div class="font-label text-[10px] font-bold uppercase tracking-widest text-outline">Wed</div>
+<div class="font-label text-[10px] font-bold uppercase tracking-widest text-outline">Thu</div>
+<div class="font-label text-[10px] font-bold uppercase tracking-widest text-outline">Fri</div>
+<div class="font-label text-[10px] font-bold uppercase tracking-widest text-outline">Sat</div>
+<div class="font-label text-[10px] font-bold uppercase tracking-widest text-outline">Sun</div>
+<!-- Dates Placeholder -->
+<div class="py-2 text-sm text-outline-variant">26</div>
+<div class="py-2 text-sm text-outline-variant">27</div>
+<div class="py-2 text-sm text-outline-variant">28</div>
+<div class="py-2 text-sm text-outline-variant">29</div>
+<div class="py-2 text-sm text-outline-variant">30</div>
+<div class="py-2 text-sm font-semibold">1</div>
+<div class="py-2 text-sm font-semibold">2</div>
+<div class="py-2 text-sm font-semibold">3</div>
+<div class="py-2 text-sm font-semibold">4</div>
+<div class="py-2 text-sm font-semibold relative">
+                    5
+                    <span class="absolute bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 bg-tertiary-container rounded-full"></span>
+</div>
+<div class="py-2 text-sm font-semibold">6</div>
+<div class="py-2 text-sm font-semibold">7</div>
+<div class="py-2 text-sm font-semibold">8</div>
+<div class="py-2 text-sm font-semibold">9</div>
+<div class="py-2 text-sm font-semibold">10</div>
+<div class="py-2 text-sm font-semibold">11</div>
+<div class="py-2 text-sm font-semibold relative">
+                    12
+                    <span class="absolute bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 bg-primary rounded-full"></span>
+</div>
+<div class="py-2 text-sm font-semibold">13</div>
+<div class="py-2 text-sm font-semibold">14</div>
+<div class="py-2 text-sm font-semibold">15</div>
+<div class="py-2 text-sm font-semibold">16</div>
+<!-- Active Day -->
+<div class="py-2 text-sm font-bold text-on-primary bg-primary rounded-xl relative">
+                    17
+                    <span class="absolute bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 bg-white rounded-full"></span>
+</div>
+<div class="py-2 text-sm font-semibold">18</div>
+<div class="py-2 text-sm font-semibold">19</div>
+<div class="py-2 text-sm font-semibold">20</div>
+<div class="py-2 text-sm font-semibold">21</div>
+<div class="py-2 text-sm font-semibold">22</div>
+<div class="py-2 text-sm font-semibold">23</div>
+</div>
+</section>
+<!-- Agenda Section -->
+<section class="space-y-4">
+<div class="flex items-baseline justify-between">
+<h3 class="font-headline font-bold text-xl text-primary">Today's Deadlines</h3>
+<span class="font-label text-xs font-semibold text-secondary">3 Tasks Remaining</span>
+</div>
+<div class="space-y-4">
+<!-- Agenda Card 1: Urgent -->
+<div class="bg-tertiary-container/10 p-5 rounded-2xl flex items-start gap-4 transition-transform active:scale-[0.98] border-l-4 border-tertiary-container">
+<div class="p-2.5 bg-tertiary-container rounded-xl">
+<span class="material-symbols-outlined text-white" data-icon="priority_high">priority_high</span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-start mb-1">
+<h4 class="font-headline font-bold text-lg text-on-background truncate">Neural Networks Paper</h4>
+<span class="font-label text-[10px] font-extrabold uppercase bg-tertiary-container text-white px-2 py-0.5 rounded-md">Urgent</span>
+</div>
+<div class="flex items-center gap-3 text-secondary text-sm">
+<span class="flex items-center gap-1 font-semibold">
+<span class="material-symbols-outlined text-base" data-icon="book">book</span>
+                                CS402
+                            </span>
+<span class="w-1 h-1 bg-outline-variant rounded-full"></span>
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-base" data-icon="schedule">schedule</span>
+                                23:59
+                            </span>
+</div>
+</div>
+</div>
+<!-- Agenda Card 2: Normal -->
+<div class="bg-surface-container-low p-5 rounded-2xl flex items-start gap-4 transition-transform active:scale-[0.98]">
+<div class="p-2.5 bg-primary-container rounded-xl">
+<span class="material-symbols-outlined text-on-primary-container" data-icon="assignment">assignment</span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-start mb-1">
+<h4 class="font-headline font-bold text-lg text-on-background truncate">Database Schema Design</h4>
+<span class="font-label text-[10px] font-bold uppercase text-outline">Normal</span>
+</div>
+<div class="flex items-center gap-3 text-secondary text-sm">
+<span class="flex items-center gap-1 font-semibold">
+<span class="material-symbols-outlined text-base" data-icon="book">book</span>
+                                CS201
+                            </span>
+<span class="w-1 h-1 bg-outline-variant rounded-full"></span>
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-base" data-icon="schedule">schedule</span>
+                                18:00
+                            </span>
+</div>
+</div>
+</div>
+<!-- Agenda Card 3: Group Project -->
+<div class="bg-surface-container-low p-5 rounded-2xl flex items-start gap-4 transition-transform active:scale-[0.98]">
+<div class="p-2.5 bg-secondary-container rounded-xl">
+<span class="material-symbols-outlined text-on-secondary-container" data-icon="groups">groups</span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-start mb-1">
+<h4 class="font-headline font-bold text-lg text-on-background truncate">Project Sprint Review</h4>
+<span class="font-label text-[10px] font-bold uppercase text-outline">Collaborative</span>
+</div>
+<div class="flex items-center gap-3 text-secondary text-sm">
+<span class="flex items-center gap-1 font-semibold">
+<span class="material-symbols-outlined text-base" data-icon="book">book</span>
+                                SWE300
+                            </span>
+<span class="w-1 h-1 bg-outline-variant rounded-full"></span>
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-base" data-icon="schedule">schedule</span>
+                                14:30
+                            </span>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- FAB -->
+<button class="fixed bottom-32 right-6 w-14 h-14 rounded-2xl bg-primary shadow-xl flex items-center justify-center text-white active:scale-90 transition-transform z-50 overflow-hidden group">
+<div class="absolute inset-0 bg-gradient-to-br from-primary to-primary-container opacity-0 group-hover:opacity-100 transition-opacity"></div>
+<span class="material-symbols-outlined relative z-10 text-3xl" data-icon="add">add</span>
+</button>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pb-8 pt-3 max-w-screen-md mx-auto bg-white/90 dark:bg-slate-900/90 backdrop-blur-xl rounded-t-3xl shadow-[0_-8px_24px_rgba(24,28,32,0.06)]">
+<!-- Calendar Tab (Active) -->
+<a class="flex flex-col items-center justify-center bg-sky-100 dark:bg-sky-900/50 text-sky-900 dark:text-sky-50 rounded-2xl px-6 py-1.5 transition-all duration-300 active:scale-95" href="#">
+<span class="material-symbols-outlined" data-icon="calendar_month" style="font-variation-settings: 'FILL' 1;">calendar_month</span>
+<span class="font-['Inter'] text-[11px] font-semibold tracking-wide uppercase mt-1">Calendar</span>
+</a>
+<!-- Tasks Tab -->
+<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 hover:text-sky-800 dark:hover:text-sky-200 transition-colors hover:bg-slate-50 dark:hover:bg-slate-800/50 rounded-2xl px-6 py-1.5 active:scale-95" href="#">
+<span class="material-symbols-outlined" data-icon="assignment">assignment</span>
+<span class="font-['Inter'] text-[11px] font-semibold tracking-wide uppercase mt-1">Tasks</span>
+</a>
+<!-- Settings Tab -->
+<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 hover:text-sky-800 dark:hover:text-sky-200 transition-colors hover:bg-slate-50 dark:hover:bg-slate-800/50 rounded-2xl px-6 py-1.5 active:scale-95" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-['Inter'] text-[11px] font-semibold tracking-wide uppercase mt-1">Settings</span>
+</a>
+</nav>
+</body></html>

@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Agenda - The Academic Curator</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-primary": "#ffffff",
+              "on-error": "#ffffff",
+              "primary-container": "#1a5276",
+              "surface-container-highest": "#dfe3e8",
+              "surface-container": "#ebeef3",
+              "on-secondary-fixed": "#071e27",
+              "surface-tint": "#2f6388",
+              "secondary-fixed": "#cfe6f2",
+              "primary-fixed-dim": "#9bccf6",
+              "on-tertiary-fixed-variant": "#604100",
+              "on-primary-fixed": "#001e30",
+              "tertiary-fixed": "#ffdeac",
+              "primary": "#003b5a",
+              "on-tertiary-fixed": "#281900",
+              "on-secondary-container": "#526772",
+              "surface-bright": "#f7f9fe",
+              "primary-fixed": "#cbe6ff",
+              "background": "#f7f9fe",
+              "surface-dim": "#d7dadf",
+              "tertiary": "#4b3200",
+              "secondary": "#4c616c",
+              "on-surface": "#181c20",
+              "on-error-container": "#93000a",
+              "inverse-surface": "#2d3135",
+              "on-secondary-fixed-variant": "#354a53",
+              "on-background": "#181c20",
+              "tertiary-container": "#694700",
+              "outline-variant": "#c1c7cf",
+              "on-tertiary-container": "#fcb100",
+              "on-primary-container": "#94c5ee",
+              "inverse-on-surface": "#eef1f6",
+              "secondary-container": "#cfe6f2",
+              "secondary-fixed-dim": "#b4cad6",
+              "surface-container-lowest": "#ffffff",
+              "on-secondary": "#ffffff",
+              "on-primary-fixed-variant": "#0e4b6e",
+              "outline": "#72787f",
+              "on-tertiary": "#ffffff",
+              "surface-container-high": "#e5e8ed",
+              "error": "#ba1a1a",
+              "surface-container-low": "#f1f4f9",
+              "surface": "#f7f9fe",
+              "inverse-primary": "#9bccf6",
+              "error-container": "#ffdad6",
+              "tertiary-fixed-dim": "#ffba38",
+              "surface-variant": "#dfe3e8",
+              "on-surface-variant": "#41474e"
+            },
+            fontFamily: {
+              "headline": ["Manrope"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+      body {
+        font-family: 'Inter', sans-serif;
+        -webkit-font-smoothing: antialiased;
+      }
+      h1, h2, h3 {
+        font-family: 'Manrope', sans-serif;
+      }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface min-h-screen flex flex-col">
+<!-- TopAppBar -->
+<header class="bg-[#f7f9fe] dark:bg-slate-900 flex justify-between items-center w-full px-12 h-16 docked full-width top-0 sticky z-50">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-[#1a5276] dark:text-blue-400">menu_book</span>
+<span class="text-xl font-extrabold text-[#003b5a] dark:text-blue-300">The Academic Curator</span>
+</div>
+<nav class="hidden md:flex gap-8 items-center">
+<a class="font-['Manrope'] font-bold tracking-tight text-[#003b5a] dark:text-blue-200" href="#">Calendar</a>
+<a class="font-['Manrope'] font-bold tracking-tight text-[#d7dadf] dark:text-slate-500 hover:bg-[#f1f4f9] dark:hover:bg-slate-800 px-3 py-1 rounded-lg transition-all" href="#">Tasks</a>
+<a class="font-['Manrope'] font-bold tracking-tight text-[#d7dadf] dark:text-slate-500 hover:bg-[#f1f4f9] dark:hover:bg-slate-800 px-3 py-1 rounded-lg transition-all" href="#">Settings</a>
+</nav>
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-full bg-surface-container-highest flex items-center justify-center overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="professional portrait of a young academic student with glasses in a library setting with soft focus books" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCU_8CNgZi_gqPscfbedq8Vu7qVpzVkSkB7hEgDsJdvS7GXZnaeVW0jX6NBhhNKhC2Z1339CDzoKRh356gaFXSoxrp-CyVaDZSQC__lxGo30u8j42BoRUtJB39uiH4FSEXC_RbLaJPist_I2iSKB51yLo89BBqXP5lL4OK4fCLLfLSUIw_jueugrrHoU9mbAFTwEVvFVBNIjgoq8b87FqcyvzQQ9Ty4vWwgh9bzNhmpYtFN1an9spCF2RC1_Ym-UQdbuJcfohBlO0Q"/>
+</div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-grow flex flex-col items-center justify-center px-6 py-12 max-w-7xl mx-auto w-full">
+<!-- Date Selector Shell (Asymmetric Editorial Layout) -->
+<div class="w-full mb-12 flex flex-col md:flex-row justify-between items-end gap-6">
+<div class="space-y-1">
+<p class="text-label-md font-medium text-secondary tracking-widest uppercase">Agenda View</p>
+<h1 class="text-4xl md:text-5xl font-extrabold text-primary tracking-tight">Today, Oct 24</h1>
+</div>
+<div class="flex gap-2">
+<button class="w-12 h-12 rounded-xl bg-surface-container-low flex items-center justify-center text-on-surface hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined">chevron_left</span>
+</button>
+<button class="px-6 h-12 rounded-xl bg-surface-container-low font-bold text-primary flex items-center justify-center hover:bg-surface-container-high transition-colors">
+                    Go to Today
+                </button>
+<button class="w-12 h-12 rounded-xl bg-surface-container-low flex items-center justify-center text-on-surface hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</div>
+</div>
+<!-- Empty State Container -->
+<div class="w-full max-w-4xl flex flex-col items-center py-16 px-8 rounded-[2rem] bg-surface-container-low relative overflow-hidden">
+<!-- Abstract Background Texture (Subtle Layering) -->
+<div class="absolute top-0 right-0 -mr-16 -mt-16 w-64 h-64 bg-secondary-container/20 rounded-full blur-3xl"></div>
+<div class="absolute bottom-0 left-0 -ml-16 -mb-16 w-64 h-64 bg-tertiary-container/10 rounded-full blur-3xl"></div>
+<!-- Illustration Area -->
+<div class="relative mb-10">
+<!-- Large Decorative Shape -->
+<div class="w-48 h-48 bg-surface-container-lowest rounded-[3rem] rotate-6 flex items-center justify-center shadow-sm">
+<div class="w-40 h-40 bg-primary/5 rounded-[2.5rem] -rotate-12 flex items-center justify-center">
+<span class="material-symbols-outlined text-7xl text-primary" style="font-variation-settings: 'FILL' 1;">auto_stories</span>
+</div>
+</div>
+<!-- Floaties -->
+<div class="absolute -top-4 -right-4 w-12 h-12 bg-tertiary-fixed rounded-full flex items-center justify-center shadow-lg">
+<span class="material-symbols-outlined text-on-tertiary-fixed text-2xl">done_all</span>
+</div>
+<div class="absolute -bottom-2 -left-6 px-4 py-2 bg-white rounded-full shadow-md flex items-center gap-2">
+<span class="material-symbols-outlined text-sm text-on-secondary-container">celebration</span>
+<span class="text-xs font-bold text-primary">Freedom found</span>
+</div>
+</div>
+<!-- Content -->
+<div class="text-center max-w-lg relative z-10">
+<h2 class="text-3xl md:text-4xl font-extrabold text-on-surface mb-4 tracking-tight">All Clear for Today!</h2>
+<p class="text-lg text-secondary font-medium leading-relaxed mb-10">
+                    No deadlines for this date. Time for a well-deserved break or some light reading.
+                </p>
+<!-- CTA -->
+<div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+<button class="bg-gradient-to-br from-primary to-primary-container text-on-primary px-8 py-4 rounded-xl font-bold text-lg shadow-xl shadow-primary/10 flex items-center gap-3 hover:scale-[1.02] active:scale-95 transition-all">
+<span class="material-symbols-outlined">add_task</span>
+                        Add New Assignment
+                    </button>
+<button class="bg-surface-container-high text-on-surface px-8 py-4 rounded-xl font-bold text-lg hover:bg-surface-container-highest transition-colors">
+                        Explore Resources
+                    </button>
+</div>
+</div>
+</div>
+<!-- Suggestion Cards (Asymmetric Bento-style secondary info) -->
+<div class="w-full max-w-4xl mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="bg-surface-container-lowest p-6 rounded-3xl flex items-start gap-5">
+<div class="w-12 h-12 rounded-2xl bg-tertiary-container/20 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-on-tertiary-container">lightbulb</span>
+</div>
+<div>
+<h4 class="font-bold text-primary mb-1">Weekly Review</h4>
+<p class="text-sm text-on-surface-variant">Review your progress for the semester and set new goals for next week.</p>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-6 rounded-3xl flex items-start gap-5">
+<div class="w-12 h-12 rounded-2xl bg-secondary-container/30 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-on-secondary-container">local_library</span>
+</div>
+<div>
+<h4 class="font-bold text-primary mb-1">Recommended Reading</h4>
+<p class="text-sm text-on-surface-variant">Check out "The Art of Focus" in your curator library to boost productivity.</p>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pb-6 pt-2 bg-white/80 dark:bg-slate-950/80 backdrop-blur-md border-t border-[#d7dadf]/15 dark:border-slate-800 shadow-[0_-8px_24px_rgba(24,28,32,0.06)] md:hidden">
+<a class="flex flex-col items-center justify-center bg-[#d7dadf]/50 dark:bg-blue-900/30 text-[#1a5276] dark:text-blue-200 rounded-2xl px-6 py-1 active:scale-90 transition-all duration-300" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">calendar_month</span>
+<span class="font-['Inter'] text-[10px] font-medium tracking-wide">Calendar</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-500 dark:text-slate-400 px-6 py-1 hover:bg-[#f1f4f9] dark:hover:bg-slate-800 transition-colors active:scale-90 transition-all duration-300" href="#">
+<span class="material-symbols-outlined">assignment</span>
+<span class="font-['Inter'] text-[10px] font-medium tracking-wide">Tasks</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-500 dark:text-slate-400 px-6 py-1 hover:bg-[#f1f4f9] dark:hover:bg-slate-800 transition-colors active:scale-90 transition-all duration-300" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-['Inter'] text-[10px] font-medium tracking-wide">Settings</span>
+</a>
+</nav>
+</body></html>
