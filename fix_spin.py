@@ -1,4 +1,0 @@
-import re
-path = "app/src/main/res/layout/activity_add_edit_deadline.xml"
-with open(path) as f: t = f.read()
-r = """<com.google.android.material.textfield.TextInputLayout style="@style/Widget.Material3.TextInputLayout.FilledBox.ExposedDropdownMenu" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="8dp" app:boxBackgroundColor="@color/surface_container_low" app:boxCornerRadiusTopStart="16dp" app:boxCornerRadiusTopEnd="16dp" app:boxCornerRadiusBottomStart="16dp" app:boxCornerRadiusBottomEnd="16dp" app:boxStrokeWidth="0dp"><AutoCompleteTextView android:id="@+id/{id}" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="none" android:textColor="@color/on_surface" android:paddingTop="14dp" android:paddingBottom="14dp" /></com.google.android.material.textfield.TextInputLayout>"""
