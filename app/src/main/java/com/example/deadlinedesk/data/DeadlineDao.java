@@ -20,13 +20,13 @@ public interface DeadlineDao {
     @Delete
     void delete(Deadline deadline);
 
-    @Query("SELECT * FROM deadlines_table ORDER BY dueDate ASC")
+    @Query("SELECT * FROM deadlines_table ORDER BY isDone ASC, dueDate ASC")
     LiveData<List<Deadline>> getAllDeadlines();
 
-    @Query("SELECT * FROM deadlines_table WHERE dueDate >= :startOfDay AND dueDate < :endOfDay ORDER BY dueDate ASC")
+    @Query("SELECT * FROM deadlines_table WHERE dueDate >= :startOfDay AND dueDate < :endOfDay ORDER BY isDone ASC, dueDate ASC")
     LiveData<List<Deadline>> getDeadlinesByDate(long startOfDay, long endOfDay);
 
-    @Query("SELECT * FROM deadlines_table WHERE dueDate >= :now ORDER BY dueDate ASC")
+    @Query("SELECT * FROM deadlines_table WHERE dueDate >= :now ORDER BY isDone ASC, dueDate ASC")
     LiveData<List<Deadline>> getUpcomingDeadlines(long now);
     
     @Query("SELECT * FROM deadlines_table WHERE id = :id LIMIT 1")

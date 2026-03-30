@@ -89,9 +89,12 @@
                     android:id="@+id/tv_module"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:background="@drawable/bg_label_normal"
+                    android:paddingHorizontal="8dp"
+                    android:paddingVertical="4dp"
                     android:fontFamily="@font/inter"
-                    android:textColor="@color/primary"
-                    android:textSize="14sp"
+                    android:textColor="@color/on_surface"
+                    android:textSize="12sp"
                     android:textStyle="bold"
                     tools:text="CS402" />
 

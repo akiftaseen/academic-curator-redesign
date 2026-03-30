@@ -11,6 +11,7 @@ public class DeadlineDeskApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        com.google.android.material.color.DynamicColors.applyToActivitiesIfAvailable(this);
         createNotificationChannel();
     }
 

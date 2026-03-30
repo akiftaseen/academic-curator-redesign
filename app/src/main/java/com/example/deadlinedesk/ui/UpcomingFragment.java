@@ -27,6 +27,8 @@ import com.example.deadlinedesk.R;
 public class UpcomingFragment extends Fragment {
 
     private DeadlineViewModel deadlineViewModel;
+    private int currentFilterPosition = 0;
+    private java.util.List<com.example.deadlinedesk.data.Deadline> currentDeadlines = new java.util.ArrayList<>();
 
     @Nullable
     @Override
@@ -44,15 +46,23 @@ public class UpcomingFragment extends Fragment {
 
         deadlineViewModel = new ViewModelProvider(this).get(DeadlineViewModel.class);
         deadlineViewModel.getUpcomingDeadlines(System.currentTimeMillis()).observe(getViewLifecycleOwner(), deadlines -> {
-            adapter.setDeadlines(deadlines);
-            
-            View emptyState = view.findViewById(R.id.empty_state_view);
-            if (emptyState != null) {
-                boolean isEmpty = deadlines == null || deadlines.isEmpty();
-                emptyState.setVisibility(isEmpty ? View.VISIBLE : View.GONE);
-                recyclerView.setVisibility(isEmpty ? View.GONE : View.VISIBLE);
+            if (deadlines != null) {
+                currentDeadlines = deadlines;
+                applyFilter(adapter, view, currentFilterPosition);
             }
         });
+
+        android.widget.AutoCompleteTextView spinnerFilter = view.findViewById(R.id.spinner_filter);
+        if (spinnerFilter != null) {
+            String[] filterOptions = getResources().getStringArray(R.array.filter_options);
+            android.widget.ArrayAdapter<String> arrayAdapter = new android.widget.ArrayAdapter<>(getContext(), android.R.layout.simple_dropdown_item_1line, filterOptions);
+            spinnerFilter.setAdapter(arrayAdapter);
+            spinnerFilter.setText(filterOptions[currentFilterPosition], false);
+            spinnerFilter.setOnItemClickListener((parent, v, position, id) -> {
+                currentFilterPosition = position;
+                applyFilter(adapter, view, position);
+            });
+        }
 
         
         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
@@ -128,5 +138,27 @@ public class UpcomingFragment extends Fragment {
         }
 
         return view;
+    }
+
+    private void applyFilter(DeadlineAdapter adapter, View view, int position) {
+        java.util.List<com.example.deadlinedesk.data.Deadline> filtered = new java.util.ArrayList<>();
+        for (com.example.deadlinedesk.data.Deadline d : currentDeadlines) {
+            if (position == 1) { // Urgent Only (High Priority)
+                if ("High".equals(d.getPriority())) filtered.add(d);
+            } else if (position == 2) { // Hide Completed
+                if (!d.isDone()) filtered.add(d);
+            } else {
+                filtered.add(d); // All
+            }
+        }
+        adapter.setDeadlines(filtered);
+        
+        RecyclerView recyclerView = view.findViewById(R.id.recycler_view_upcoming);
+        View emptyState = view.findViewById(R.id.empty_state_view);
+        if (emptyState != null && recyclerView != null) {
+            boolean isEmpty = filtered.isEmpty();
+            emptyState.setVisibility(isEmpty ? View.VISIBLE : View.GONE);
+            recyclerView.setVisibility(isEmpty ? View.GONE : View.VISIBLE);
+        }
     }
 }

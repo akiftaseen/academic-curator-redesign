@@ -8,7 +8,9 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.Spinner;
+import android.widget.AutoCompleteTextView;
+import android.widget.ArrayAdapter;
+import android.widget.AdapterView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,7 +37,7 @@ public class AddEditDeadlineActivity extends AppCompatActivity {
     public static final String EXTRA_DEADLINE_REMINDER_MINUTES = "EXTRA_DEADLINE_REMINDER_MINUTES";
 
     private EditText etTitle, etModule, etNotes;
-    private Spinner spinnerPriority, spinnerReminder;
+    private AutoCompleteTextView spinnerPriority, spinnerReminder;
     private CheckBox cbDone;
     private Button btnSave, btnDelete;
     private TextView tvSelectedDate, tvSelectedTime, tvToolbarTitle;
@@ -79,14 +81,14 @@ public class AddEditDeadlineActivity extends AppCompatActivity {
         calendar = Calendar.getInstance();
 
         String[] priorities = {"High", "Medium", "Low"};
-        ArrayAdapter<String> priorityAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, priorities);
-        priorityAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        ArrayAdapter<String> priorityAdapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, priorities);
         spinnerPriority.setAdapter(priorityAdapter);
+        spinnerPriority.setText(priorities[0], false); // Default value
 
-        ArrayAdapter<CharSequence> reminderAdapter = ArrayAdapter.createFromResource(this,
-                R.array.reminder_options, android.R.layout.simple_spinner_item);
-        reminderAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        String[] rmOptions = getResources().getStringArray(R.array.reminder_options);
+        ArrayAdapter<String> reminderAdapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, rmOptions);
         spinnerReminder.setAdapter(reminderAdapter);
+        spinnerReminder.setText(rmOptions[0], false);
 
         // Check if editing or adding
         if (getIntent().hasExtra(EXTRA_DEADLINE_ID)) {
@@ -101,14 +103,15 @@ public class AddEditDeadlineActivity extends AppCompatActivity {
             if (priority != null) {
                 for (int i = 0; i < priorities.length; i++) {
                     if (priorities[i].equalsIgnoreCase(priority)) {
-                        spinnerPriority.setSelection(i);
+                        spinnerPriority.setText(priorities[i], false);
                         break;
                     }
                 }
             }
 
             int reminderMinutes = getIntent().getIntExtra(EXTRA_DEADLINE_REMINDER_MINUTES, reminderValues[0]);
-            spinnerReminder.setSelection(getReminderSelection(reminderMinutes));
+            int remSel = getReminderSelection(reminderMinutes);
+            spinnerReminder.setText(rmOptions[remSel], false);
 
             long dueDate = getIntent().getLongExtra(EXTRA_DEADLINE_DUE, System.currentTimeMillis());
             calendar.setTimeInMillis(dueDate);
@@ -176,8 +179,15 @@ public class AddEditDeadlineActivity extends AppCompatActivity {
         String title = etTitle.getText().toString().trim();
         String module = etModule.getText().toString().trim();
         String notes = etNotes.getText().toString().trim();
-        String priority = spinnerPriority.getSelectedItem().toString();
-        int reminderMinutes = reminderValues[spinnerReminder.getSelectedItemPosition()];
+        String priority = spinnerPriority.getText().toString();
+        
+        int reminderPos = 0;
+        String remText = spinnerReminder.getText().toString();
+        String[] remOptions = getResources().getStringArray(R.array.reminder_options);
+        for(int i=0; i<remOptions.length; i++) {
+            if(remOptions[i].equals(remText)) { reminderPos = i; break; }
+        }
+        int reminderMinutes = reminderValues[reminderPos];
 
         if (title.isEmpty()) {
             Toast.makeText(this, R.string.msg_enter_title, Toast.LENGTH_SHORT).show();
