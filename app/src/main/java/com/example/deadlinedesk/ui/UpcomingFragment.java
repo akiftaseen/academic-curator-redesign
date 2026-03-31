@@ -19,7 +19,6 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import androidx.core.content.ContextCompat;
-import android.view.View;
 
 
 import com.example.deadlinedesk.R;
@@ -55,7 +54,8 @@ public class UpcomingFragment extends Fragment {
         android.widget.AutoCompleteTextView spinnerFilter = view.findViewById(R.id.spinner_filter);
         if (spinnerFilter != null) {
             String[] filterOptions = getResources().getStringArray(R.array.filter_options);
-            android.widget.ArrayAdapter<String> arrayAdapter = new android.widget.ArrayAdapter<>(getContext(), android.R.layout.simple_dropdown_item_1line, filterOptions);
+            android.widget.ArrayAdapter<String> arrayAdapter = new android.widget.ArrayAdapter<>(requireContext(), R.layout.item_dropdown_option, filterOptions);
+            arrayAdapter.setDropDownViewResource(R.layout.item_dropdown_option);
             spinnerFilter.setAdapter(arrayAdapter);
             spinnerFilter.setText(filterOptions[currentFilterPosition], false);
             spinnerFilter.setOnItemClickListener((parent, v, position, id) -> {

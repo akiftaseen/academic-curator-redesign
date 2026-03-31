@@ -182,22 +182,20 @@
                         android:textStyle="bold" />
 
                     <com.google.android.material.textfield.TextInputLayout
-                        style="@style/Widget.Material3.TextInputLayout.FilledBox.ExposedDropdownMenu"
+                        style="@style/Widget.DeadlineDesk.ExposedDropdownMenu"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        app:boxBackgroundColor="@color/surface_container_low"
-                        app:boxCornerRadiusTopStart="16dp"
-                        app:boxCornerRadiusTopEnd="16dp"
-                        app:boxCornerRadiusBottomStart="16dp"
-                        app:boxCornerRadiusBottomEnd="16dp"
-                        app:boxStrokeWidth="0dp">
+                        android:layout_marginTop="8dp">
 
-                        <AutoCompleteTextView
+                        <com.google.android.material.textfield.MaterialAutoCompleteTextView
                             android:id="@+id/spinner_priority"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:popupBackground="@drawable/bg_dropdown_menu_material"
+                            android:fontFamily="@font/inter"
                             android:inputType="none"
+                            android:popupElevation="16dp"
+                            android:textColor="@color/on_surface"
                             android:paddingTop="14dp"
                             android:paddingBottom="14dp" />
                     </com.google.android.material.textfield.TextInputLayout>
@@ -220,22 +218,20 @@
                         android:textStyle="bold" />
 
                     <com.google.android.material.textfield.TextInputLayout
-                        style="@style/Widget.Material3.TextInputLayout.FilledBox.ExposedDropdownMenu"
+                        style="@style/Widget.DeadlineDesk.ExposedDropdownMenu"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        app:boxBackgroundColor="@color/surface_container_low"
-                        app:boxCornerRadiusTopStart="16dp"
-                        app:boxCornerRadiusTopEnd="16dp"
-                        app:boxCornerRadiusBottomStart="16dp"
-                        app:boxCornerRadiusBottomEnd="16dp"
-                        app:boxStrokeWidth="0dp">
+                        android:layout_marginTop="8dp">
 
-                        <AutoCompleteTextView
+                        <com.google.android.material.textfield.MaterialAutoCompleteTextView
                             android:id="@+id/spinner_reminder"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:popupBackground="@drawable/bg_dropdown_menu_material"
+                            android:fontFamily="@font/inter"
                             android:inputType="none"
+                            android:popupElevation="16dp"
+                            android:textColor="@color/on_surface"
                             android:paddingTop="14dp"
                             android:paddingBottom="14dp" />
                     </com.google.android.material.textfield.TextInputLayout>

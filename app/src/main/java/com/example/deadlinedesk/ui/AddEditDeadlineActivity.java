@@ -1,16 +1,13 @@
 package com.example.deadlinedesk.ui;
 
-import android.app.DatePickerDialog;
-import android.app.TimePickerDialog;
 import android.os.Bundle;
+import android.text.format.DateFormat;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.AutoCompleteTextView;
 import android.widget.ArrayAdapter;
-import android.widget.AdapterView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,10 +17,12 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.deadlinedesk.R;
 import com.example.deadlinedesk.data.Deadline;
+import com.google.android.material.datepicker.MaterialDatePicker;
+import com.google.android.material.timepicker.MaterialTimePicker;
+import com.google.android.material.timepicker.TimeFormat;
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Locale;
+import java.util.TimeZone;
 
 public class AddEditDeadlineActivity extends AppCompatActivity {
 
@@ -81,13 +80,17 @@ public class AddEditDeadlineActivity extends AppCompatActivity {
         calendar = Calendar.getInstance();
 
         String[] priorities = {"High", "Medium", "Low"};
-        ArrayAdapter<String> priorityAdapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, priorities);
+        ArrayAdapter<String> priorityAdapter = new ArrayAdapter<>(this, R.layout.item_dropdown_option, priorities);
+        priorityAdapter.setDropDownViewResource(R.layout.item_dropdown_option);
         spinnerPriority.setAdapter(priorityAdapter);
+        spinnerPriority.setKeyListener(null);
         spinnerPriority.setText(priorities[0], false); // Default value
 
         String[] rmOptions = getResources().getStringArray(R.array.reminder_options);
-        ArrayAdapter<String> reminderAdapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, rmOptions);
+        ArrayAdapter<String> reminderAdapter = new ArrayAdapter<>(this, R.layout.item_dropdown_option, rmOptions);
+        reminderAdapter.setDropDownViewResource(R.layout.item_dropdown_option);
         spinnerReminder.setAdapter(reminderAdapter);
+        spinnerReminder.setKeyListener(null);
         spinnerReminder.setText(rmOptions[0], false);
 
         // Check if editing or adding
@@ -139,31 +142,67 @@ public class AddEditDeadlineActivity extends AppCompatActivity {
     }
 
     private void showDatePicker() {
-        new DatePickerDialog(this,
-            (view, year, month, dayOfMonth) -> {
-                calendar.set(Calendar.YEAR, year);
-                calendar.set(Calendar.MONTH, month);
-                calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                updateDateTimeTexts();
-            }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH))
-            .show();
+        MaterialDatePicker<Long> datePicker = MaterialDatePicker.Builder.datePicker()
+            .setTitleText(R.string.label_date)
+            .setSelection(getUtcDateSelection())
+                .setTheme(R.style.ThemeOverlay_DeadlineDesk_MaterialCalendar)
+                .build();
+
+        datePicker.addOnPositiveButtonClickListener(selection -> {
+            if (selection == null) {
+                return;
+            }
+
+            Calendar utcCalendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+            utcCalendar.setTimeInMillis(selection);
+            calendar.set(Calendar.YEAR, utcCalendar.get(Calendar.YEAR));
+            calendar.set(Calendar.MONTH, utcCalendar.get(Calendar.MONTH));
+            calendar.set(Calendar.DAY_OF_MONTH, utcCalendar.get(Calendar.DAY_OF_MONTH));
+            updateDateTimeTexts();
+        });
+
+        datePicker.show(getSupportFragmentManager(), "due_date_picker");
     }
 
     private void showTimePicker() {
-        new TimePickerDialog(this,
-            (view, hourOfDay, minute) -> {
-                calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
-                calendar.set(Calendar.MINUTE, minute);
-                updateDateTimeTexts();
-            }, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), false)
-            .show();
+        int clockFormat = DateFormat.is24HourFormat(this)
+                ? TimeFormat.CLOCK_24H
+                : TimeFormat.CLOCK_12H;
+
+        MaterialTimePicker timePicker = new MaterialTimePicker.Builder()
+            .setTitleText(R.string.label_time)
+                .setTimeFormat(clockFormat)
+                .setHour(calendar.get(Calendar.HOUR_OF_DAY))
+                .setMinute(calendar.get(Calendar.MINUTE))
+                .setTheme(R.style.ThemeOverlay_DeadlineDesk_MaterialTimePicker)
+                .build();
+
+        timePicker.addOnPositiveButtonClickListener(v -> {
+            calendar.set(Calendar.HOUR_OF_DAY, timePicker.getHour());
+            calendar.set(Calendar.MINUTE, timePicker.getMinute());
+            updateDateTimeTexts();
+        });
+
+        timePicker.show(getSupportFragmentManager(), "due_time_picker");
     }
 
     private void updateDateTimeTexts() {
-        SimpleDateFormat dateSdf = new SimpleDateFormat("MMM dd, yyyy", Locale.getDefault());
-        SimpleDateFormat timeSdf = new SimpleDateFormat("hh:mm a", Locale.getDefault());
-        tvSelectedDate.setText(dateSdf.format(calendar.getTime()));
-        tvSelectedTime.setText(timeSdf.format(calendar.getTime()));
+        java.text.DateFormat dateFormat = DateFormat.getMediumDateFormat(this);
+        java.text.DateFormat timeFormat = DateFormat.getTimeFormat(this);
+        tvSelectedDate.setText(dateFormat.format(calendar.getTime()));
+        tvSelectedTime.setText(timeFormat.format(calendar.getTime()));
+    }
+
+    private long getUtcDateSelection() {
+        Calendar utcCalendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+        utcCalendar.set(Calendar.YEAR, calendar.get(Calendar.YEAR));
+        utcCalendar.set(Calendar.MONTH, calendar.get(Calendar.MONTH));
+        utcCalendar.set(Calendar.DAY_OF_MONTH, calendar.get(Calendar.DAY_OF_MONTH));
+        utcCalendar.set(Calendar.HOUR_OF_DAY, 0);
+        utcCalendar.set(Calendar.MINUTE, 0);
+        utcCalendar.set(Calendar.SECOND, 0);
+        utcCalendar.set(Calendar.MILLISECOND, 0);
+        return utcCalendar.getTimeInMillis();
     }
 
     private int getReminderSelection(int reminderMinutes) {
