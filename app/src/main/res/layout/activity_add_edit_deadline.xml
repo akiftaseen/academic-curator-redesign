@@ -162,14 +162,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="24dp"
-                android:baselineAligned="false"
-                android:orientation="horizontal">
+                android:orientation="vertical">
 
                 <LinearLayout
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="8dp"
-                    android:layout_weight="1"
+                    android:layout_marginBottom="14dp"
                     android:orientation="vertical">
 
                     <TextView
@@ -181,31 +179,47 @@
                         android:textSize="14sp"
                         android:textStyle="bold" />
 
-                    <com.google.android.material.textfield.TextInputLayout
-                        style="@style/Widget.DeadlineDesk.ExposedDropdownMenu"
+                    <com.google.android.material.button.MaterialButtonToggleGroup
+                        android:id="@+id/group_priority"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp">
+                        android:layout_height="48dp"
+                        android:layout_marginTop="8dp"
+                        android:background="@drawable/bg_rounded_xl"
+                        android:backgroundTint="@color/surface_container_low"
+                        android:padding="4dp"
+                        app:checkedButton="@id/btn_priority_high"
+                        app:selectionRequired="true"
+                        app:singleSelection="true">
 
-                        <com.google.android.material.textfield.MaterialAutoCompleteTextView
-                            android:id="@+id/spinner_priority"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:popupBackground="@drawable/bg_dropdown_menu_material"
-                            android:fontFamily="@font/inter"
-                            android:inputType="none"
-                            android:popupElevation="16dp"
-                            android:textColor="@color/on_surface"
-                            android:paddingTop="14dp"
-                            android:paddingBottom="14dp" />
-                    </com.google.android.material.textfield.TextInputLayout>
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btn_priority_low"
+                            style="@style/Widget.DeadlineDesk.PrioritySegment"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:text="@string/priority_low_short" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btn_priority_medium"
+                            style="@style/Widget.DeadlineDesk.PrioritySegment"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:text="@string/priority_medium_short" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btn_priority_high"
+                            style="@style/Widget.DeadlineDesk.PrioritySegment"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:text="@string/priority_high_short" />
+                    </com.google.android.material.button.MaterialButtonToggleGroup>
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_weight="1"
                     android:orientation="vertical">
 
                     <TextView
@@ -269,62 +283,6 @@
                 android:text="Mark as Done"
                 android:textColor="@color/on_surface" />
 
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="32dp"
-                app:cardBackgroundColor="@color/primary"
-                app:cardCornerRadius="24dp"
-                app:cardElevation="0dp"
-                android:outlineAmbientShadowColor="@color/on_surface"
-                android:outlineSpotShadowColor="@color/on_surface">
-
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="24dp">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:gravity="center_vertical"
-                            android:orientation="horizontal">
-
-                            <ImageView
-                                android:layout_width="16dp"
-                                android:layout_height="16dp"
-                                android:layout_marginEnd="8dp"
-                                android:src="@drawable/ic_priority"
-                                app:tint="@color/on_primary" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="@font/manrope"
-                                android:text="Focus Mode"
-                                android:textColor="@color/on_primary"
-                                android:textSize="16sp"
-                                android:textStyle="bold" />
-                        </LinearLayout>
-
-                        <TextView
-                            android:layout_width="200dp"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/inter"
-                            android:layout_marginTop="4dp"
-                            android:text="Assignments with high priority are automatically synced to your deep-work calendar."
-                            android:textColor="@color/on_primary"
-                            android:textSize="12sp"
-                            android:alpha="0.8" />
-                    </LinearLayout>
-                </FrameLayout>
-            </com.google.android.material.card.MaterialCardView>
-            
              <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_save"
                 android:layout_width="match_parent"

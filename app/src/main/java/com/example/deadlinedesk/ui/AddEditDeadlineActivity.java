@@ -17,6 +17,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.deadlinedesk.R;
 import com.example.deadlinedesk.data.Deadline;
+import com.google.android.material.button.MaterialButtonToggleGroup;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.timepicker.MaterialTimePicker;
 import com.google.android.material.timepicker.TimeFormat;
@@ -36,7 +37,8 @@ public class AddEditDeadlineActivity extends AppCompatActivity {
     public static final String EXTRA_DEADLINE_REMINDER_MINUTES = "EXTRA_DEADLINE_REMINDER_MINUTES";
 
     private EditText etTitle, etModule, etNotes;
-    private AutoCompleteTextView spinnerPriority, spinnerReminder;
+    private AutoCompleteTextView spinnerReminder;
+    private MaterialButtonToggleGroup priorityGroup;
     private CheckBox cbDone;
     private Button btnSave, btnDelete;
     private TextView tvSelectedDate, tvSelectedTime, tvToolbarTitle;
@@ -67,7 +69,7 @@ public class AddEditDeadlineActivity extends AppCompatActivity {
         etTitle = findViewById(R.id.et_title);
         etModule = findViewById(R.id.et_module);
         etNotes = findViewById(R.id.et_notes);
-        spinnerPriority = findViewById(R.id.spinner_priority);
+        priorityGroup = findViewById(R.id.group_priority);
         spinnerReminder = findViewById(R.id.spinner_reminder);
         cbDone = findViewById(R.id.cb_is_done);
         btnSave = findViewById(R.id.btn_save);
@@ -79,12 +81,9 @@ public class AddEditDeadlineActivity extends AppCompatActivity {
 
         calendar = Calendar.getInstance();
 
-        String[] priorities = {"High", "Medium", "Low"};
-        ArrayAdapter<String> priorityAdapter = new ArrayAdapter<>(this, R.layout.item_dropdown_option, priorities);
-        priorityAdapter.setDropDownViewResource(R.layout.item_dropdown_option);
-        spinnerPriority.setAdapter(priorityAdapter);
-        spinnerPriority.setKeyListener(null);
-        spinnerPriority.setText(priorities[0], false); // Default value
+        if (priorityGroup != null) {
+            priorityGroup.check(R.id.btn_priority_high);
+        }
 
         String[] rmOptions = getResources().getStringArray(R.array.reminder_options);
         ArrayAdapter<String> reminderAdapter = new ArrayAdapter<>(this, R.layout.item_dropdown_option, rmOptions);
@@ -104,10 +103,13 @@ public class AddEditDeadlineActivity extends AppCompatActivity {
             
             String priority = getIntent().getStringExtra(EXTRA_DEADLINE_PRIORITY);
             if (priority != null) {
-                for (int i = 0; i < priorities.length; i++) {
-                    if (priorities[i].equalsIgnoreCase(priority)) {
-                        spinnerPriority.setText(priorities[i], false);
-                        break;
+                if (priorityGroup != null) {
+                    if ("Low".equalsIgnoreCase(priority)) {
+                        priorityGroup.check(R.id.btn_priority_low);
+                    } else if ("Medium".equalsIgnoreCase(priority)) {
+                        priorityGroup.check(R.id.btn_priority_medium);
+                    } else {
+                        priorityGroup.check(R.id.btn_priority_high);
                     }
                 }
             }
@@ -218,7 +220,7 @@ public class AddEditDeadlineActivity extends AppCompatActivity {
         String title = etTitle.getText().toString().trim();
         String module = etModule.getText().toString().trim();
         String notes = etNotes.getText().toString().trim();
-        String priority = spinnerPriority.getText().toString();
+        String priority = getSelectedPriority();
         
         int reminderPos = 0;
         String remText = spinnerReminder.getText().toString();
@@ -252,5 +254,20 @@ public class AddEditDeadlineActivity extends AppCompatActivity {
         }
 
         finish();
+    }
+
+    private String getSelectedPriority() {
+        if (priorityGroup == null) {
+            return "High";
+        }
+
+        int checkedButtonId = priorityGroup.getCheckedButtonId();
+        if (checkedButtonId == R.id.btn_priority_low) {
+            return "Low";
+        }
+        if (checkedButtonId == R.id.btn_priority_medium) {
+            return "Medium";
+        }
+        return "High";
     }
 }

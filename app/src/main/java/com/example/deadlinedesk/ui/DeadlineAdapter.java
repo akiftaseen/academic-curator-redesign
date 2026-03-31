@@ -80,11 +80,15 @@ public class DeadlineAdapter extends RecyclerView.Adapter<DeadlineAdapter.Deadli
         holder.cbDone.setChecked(currentDeadline.isDone());
         
         if (currentDeadline.isDone()) {
-            holder.itemView.setAlpha(0.5f);
+            holder.itemView.setAlpha(1.0f);
             holder.tvTitle.setPaintFlags(holder.tvTitle.getPaintFlags() | android.graphics.Paint.STRIKE_THRU_TEXT_FLAG);
+            holder.tvModule.setPaintFlags(holder.tvModule.getPaintFlags() | android.graphics.Paint.STRIKE_THRU_TEXT_FLAG);
+            holder.tvDueTime.setPaintFlags(holder.tvDueTime.getPaintFlags() | android.graphics.Paint.STRIKE_THRU_TEXT_FLAG);
         } else {
             holder.itemView.setAlpha(1.0f);
             holder.tvTitle.setPaintFlags(holder.tvTitle.getPaintFlags() & ~android.graphics.Paint.STRIKE_THRU_TEXT_FLAG);
+            holder.tvModule.setPaintFlags(holder.tvModule.getPaintFlags() & ~android.graphics.Paint.STRIKE_THRU_TEXT_FLAG);
+            holder.tvDueTime.setPaintFlags(holder.tvDueTime.getPaintFlags() & ~android.graphics.Paint.STRIKE_THRU_TEXT_FLAG);
         }
         
         holder.cbDone.setOnCheckedChangeListener((buttonView, isChecked) -> {

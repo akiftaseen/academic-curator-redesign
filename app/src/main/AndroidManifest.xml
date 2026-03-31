@@ -7,10 +7,6 @@
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM"/>
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
 
-    <!-- Optional permission for stretch goal -->
-    <uses-permission android:name="android.permission.WRITE_CALENDAR" />
-    <uses-permission android:name="android.permission.READ_CALENDAR" />
-
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"

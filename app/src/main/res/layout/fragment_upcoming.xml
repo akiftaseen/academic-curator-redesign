@@ -42,27 +42,30 @@
 
                 <com.google.android.material.textfield.TextInputLayout
                     style="@style/Widget.DeadlineDesk.ExposedDropdownMenu"
-                    android:layout_width="150dp"
+                    android:layout_width="176dp"
                     android:layout_height="wrap_content"
-                    app:boxBackgroundColor="@android:color/transparent"
-                    app:boxStrokeWidth="0dp"
+                    app:boxBackgroundColor="@color/surface_container_low"
+                    app:boxStrokeWidth="1dp"
+                    app:boxStrokeColor="@color/outline_variant"
                     app:boxStrokeWidthFocused="0dp">
 
                     <com.google.android.material.textfield.MaterialAutoCompleteTextView
                         android:id="@+id/spinner_filter"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:ellipsize="end"
                         android:popupBackground="@drawable/bg_dropdown_menu_material"
                         android:fontFamily="@font/inter"
                         android:inputType="none"
+                        android:maxLines="1"
                         android:popupElevation="16dp"
                         android:textColor="@color/primary"
-                        android:textSize="14sp"
+                        android:textSize="13sp"
                         android:textStyle="bold"
                         android:paddingTop="10dp"
                         android:paddingBottom="10dp"
-                        android:paddingStart="0dp"
-                        android:paddingEnd="0dp" />
+                        android:paddingStart="12dp"
+                        android:paddingEnd="8dp" />
                 </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
 
@@ -102,14 +105,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:alpha="0.1"
-                    android:background="@drawable/bg_rounded_xl"
-                    android:rotation="-6" />
+                    android:background="@drawable/bg_squircle_soft"
+                    android:rotation="0" />
 
                 <ImageView
                     android:layout_width="80dp"
                     android:layout_height="80dp"
                     android:layout_gravity="center"
-                    android:src="@drawable/ic_tasks"
+                    android:src="@drawable/ic_done"
                     android:contentDescription="@string/empty_state_icon_desc"
                     app:tint="@color/primary" />
             </FrameLayout>

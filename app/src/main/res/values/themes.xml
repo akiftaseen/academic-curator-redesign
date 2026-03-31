@@ -96,16 +96,46 @@
         <item name="endIconTint">@color/on_surface_variant</item>
     </style>
 
+    <style name="Widget.DeadlineDesk.PrioritySegment" parent="Widget.Material3.Button.OutlinedButton">
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textStyle">bold</item>
+        <item name="fontFamily">@font/inter</item>
+        <item name="android:fontFamily">@font/inter</item>
+        <item name="android:textSize">13sp</item>
+        <item name="strokeWidth">1dp</item>
+        <item name="strokeColor">@color/outline_variant</item>
+        <item name="backgroundTint">@color/priority_segment_background</item>
+        <item name="android:textColor">@color/priority_segment_text</item>
+        <item name="rippleColor">@color/surface_variant_80</item>
+    </style>
+
+    <style name="Widget.DeadlineDesk.PickerActionButton" parent="Widget.Material3.Button.TextButton.Dialog">
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textStyle">bold</item>
+        <item name="fontFamily">@font/inter</item>
+        <item name="android:fontFamily">@font/inter</item>
+    </style>
+
     <style name="ThemeOverlay.DeadlineDesk.MaterialCalendar" parent="ThemeOverlay.Material3.MaterialCalendar">
         <item name="colorSurface">@color/surface_container_lowest</item>
         <item name="colorOnSurface">@color/on_surface</item>
         <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryContainer">@color/primary_container</item>
+        <item name="colorOnPrimaryContainer">@color/on_primary_container</item>
+        <item name="buttonBarPositiveButtonStyle">@style/Widget.DeadlineDesk.PickerActionButton</item>
+        <item name="buttonBarNegativeButtonStyle">@style/Widget.DeadlineDesk.PickerActionButton</item>
+        <item name="shapeAppearanceMediumComponent">@style/ShapeAppearance.DeadlineDesk.Large</item>
     </style>
 
     <style name="ThemeOverlay.DeadlineDesk.MaterialTimePicker" parent="ThemeOverlay.Material3.MaterialTimePicker">
         <item name="colorSurface">@color/surface_container_lowest</item>
         <item name="colorOnSurface">@color/on_surface</item>
         <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryContainer">@color/primary_container</item>
+        <item name="colorOnPrimaryContainer">@color/on_primary_container</item>
+        <item name="buttonBarPositiveButtonStyle">@style/Widget.DeadlineDesk.PickerActionButton</item>
+        <item name="buttonBarNegativeButtonStyle">@style/Widget.DeadlineDesk.PickerActionButton</item>
+        <item name="shapeAppearanceMediumComponent">@style/ShapeAppearance.DeadlineDesk.Large</item>
     </style>
 
     <!-- Custom CalendarView Style -->

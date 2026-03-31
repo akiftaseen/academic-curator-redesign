@@ -43,12 +43,12 @@
     <string name="snooze_15_minutes">Snooze (15m)</string>
     <string name="msg_calendar_app_not_found">No calendar app found</string>
 
-    <string name="focus_mode_title">Focus Mode</string>
-    <string name="focus_mode_desc">Assignments with high priority are automatically curated for deep work.</string>
-
     <string name="priority_high">HIGH PRIORITY</string>
     <string name="priority_medium">MEDIUM PRIORITY</string>
     <string name="priority_low">LOW PRIORITY</string>
+    <string name="priority_high_short">High</string>
+    <string name="priority_medium_short">Medium</string>
+    <string name="priority_low_short">Low</string>
 
     <string name="msg_assignment_saved">Assignment saved</string>
     <string name="msg_assignment_updated">Assignment updated</string>

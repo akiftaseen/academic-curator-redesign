@@ -170,8 +170,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:alpha="0.1"
-                    android:background="@drawable/bg_rounded_xl"
-                    android:rotation="6" />
+                    android:background="@drawable/bg_squircle_soft"
+                    android:rotation="0" />
 
                 <ImageView
                     android:layout_width="80dp"
