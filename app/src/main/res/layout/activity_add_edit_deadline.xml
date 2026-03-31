@@ -296,9 +296,9 @@
                 android:textStyle="bold"
                 app:backgroundTint="@null"
                 app:cornerRadius="24dp"
-                app:elevation="8dp"
-                android:outlineAmbientShadowColor="@color/primary"
-                android:outlineSpotShadowColor="@color/primary"/>
+                app:elevation="0dp"
+                
+                />
 
             <Button
                 android:id="@+id/btn_delete"

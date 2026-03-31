@@ -34,7 +34,7 @@
         android:layout_gravity="bottom"
         android:background="@drawable/bg_bottom_nav_shell"
         app:elevation="10dp"
-        app:itemActiveIndicatorStyle="@style/Widget.Material3.BottomNavigationView.ActiveIndicator"
+        app:itemActiveIndicatorStyle="@style/Widget.DeadlineDesk.BottomNavIndicator"
         app:itemIconTint="@color/nav_item_tint"
         app:itemTextColor="@color/nav_item_tint"
         app:itemRippleColor="@color/surface_variant"

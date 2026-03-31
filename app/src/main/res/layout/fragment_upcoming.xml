@@ -45,7 +45,7 @@
                     android:layout_width="176dp"
                     android:layout_height="wrap_content"
                     app:boxBackgroundColor="@color/surface_container_low"
-                    app:boxStrokeWidth="1dp"
+                    app:boxStrokeWidth="0dp"
                     app:boxStrokeColor="@color/outline_variant"
                     app:boxStrokeWidthFocused="0dp">
 
@@ -150,9 +150,9 @@
                 android:textColor="@color/on_primary"
                 app:backgroundTint="@null"
                 app:cornerRadius="24dp"
-                app:elevation="8dp"
-                android:outlineAmbientShadowColor="@color/primary"
-                android:outlineSpotShadowColor="@color/primary"
+                app:elevation="0dp"
+                
+                
                 app:icon="@drawable/ic_add" />
 
             <LinearLayout

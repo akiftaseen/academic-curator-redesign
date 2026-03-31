@@ -102,11 +102,13 @@
             android:layout_marginBottom="32dp"
             app:cardBackgroundColor="@color/surface_container_lowest"
             app:cardCornerRadius="32dp"
-            app:cardElevation="2dp"
-            android:outlineAmbientShadowColor="@color/on_surface"
-            android:outlineSpotShadowColor="@color/on_surface"
+            app:cardElevation="0dp"
             app:strokeWidth="0dp"
-            app:contentPadding="8dp">
+            app:strokeColor="@color/outline_variant"
+            
+            
+            
+            app:contentPadding="16dp">
 
             <CalendarView
                 android:id="@+id/calendarView"
@@ -215,9 +217,9 @@
                 android:textColor="@color/on_primary"
                 app:backgroundTint="@null"
                 app:cornerRadius="24dp"
-                app:elevation="8dp"
-                android:outlineAmbientShadowColor="@color/primary"
-                android:outlineSpotShadowColor="@color/primary"
+                app:elevation="0dp"
+                
+                
                 app:icon="@drawable/ic_add" />
 
             <LinearLayout

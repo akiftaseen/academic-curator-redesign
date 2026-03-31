@@ -183,9 +183,7 @@
 
 
     <style name="Widget.DeadlineDesk.BottomNavIndicator" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
-        <item name="android:color">@color/surface_container_high</item>
-        <item name="android:height">32dp</item>
-        <item name="android:width">64dp</item>
+        <item name="android:color">@color/primary_fixed_dim</item>
     </style>
 
 
@@ -195,4 +193,10 @@
         <item name="android:textStyle">bold</item>
     </style>
     
+    <style name="TextAppearance.DeadlineDesk.LabelMedium" parent="TextAppearance.Material3.LabelMedium">
+        <item name="fontFamily">@font/inter</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textStyle">normal</item>
+    </style>
 </resources>
+

@@ -59,8 +59,14 @@ public class UpcomingFragment extends Fragment {
             spinnerFilter.setAdapter(arrayAdapter);
             spinnerFilter.setText(filterOptions[currentFilterPosition], false);
             spinnerFilter.setOnItemClickListener((parent, v, position, id) -> {
-                currentFilterPosition = position;
-                applyFilter(adapter, view, position);
+                String selectedText = (String) parent.getItemAtPosition(position);
+                for (int i = 0; i < filterOptions.length; i++) {
+                    if (filterOptions[i].equals(selectedText)) {
+                        currentFilterPosition = i;
+                        break;
+                    }
+                }
+                applyFilter(adapter, view, currentFilterPosition);
             });
         }
 
