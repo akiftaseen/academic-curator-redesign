@@ -8,12 +8,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.card.MaterialCardView;
 
 import com.example.deadlinedesk.R;
 import com.example.deadlinedesk.data.Deadline;
@@ -27,7 +28,7 @@ import java.util.Locale;
 public class DeadlineAdapter extends RecyclerView.Adapter<DeadlineAdapter.DeadlineHolder> {
 
     private List<Deadline> deadlines = new ArrayList<>();
-    private Context context;
+    private final Context context;
     private OnItemClickListener listener;
 
     public DeadlineAdapter(Context context) {
@@ -53,26 +54,21 @@ public class DeadlineAdapter extends RecyclerView.Adapter<DeadlineAdapter.Deadli
         holder.tvDueTime.setText(timeSdf.format(new Date(currentDeadline.getDueDate())));
 
         String priority = currentDeadline.getPriority();
-        if (priority == null) priority = "Normal";
-        holder.tvPriorityLabel.setText(priority.toUpperCase());
+        if (priority == null) priority = "High";
 
-        // Apply Priority Styling
+        int priorityColor = getPriorityColor(priority);
+        int priorityContainerColor = getPriorityContainerColor(priority);
+
+        holder.cardView.setStrokeColor(ColorStateList.valueOf(priorityColor));
+        holder.priorityIndicatorContainer.setBackgroundTintList(ColorStateList.valueOf(priorityContainerColor));
+        holder.tvPrioritySymbol.setText(getPrioritySymbol(priority));
+        holder.tvPrioritySymbol.setTextColor(priorityColor);
+        holder.tvPriorityLabel.setText(priority.toUpperCase(Locale.getDefault()));
+
         if (priority.equalsIgnoreCase("High")) {
-            holder.priorityIndicatorContainer.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(context, R.color.tertiary_container)));
-            holder.ivPriorityIcon.setImageResource(R.drawable.ic_priority);
-            holder.ivPriorityIcon.setImageTintList(ColorStateList.valueOf(ContextCompat.getColor(context, R.color.tertiary)));
             holder.tvPriorityLabel.setBackgroundResource(R.drawable.bg_label_urgent);
             holder.tvPriorityLabel.setTextColor(ContextCompat.getColor(context, R.color.tertiary));
-        } else if (priority.equalsIgnoreCase("Medium")) {
-            holder.priorityIndicatorContainer.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(context, R.color.primary_fixed)));
-            holder.ivPriorityIcon.setImageResource(R.drawable.ic_note);
-            holder.ivPriorityIcon.setImageTintList(ColorStateList.valueOf(ContextCompat.getColor(context, R.color.primary)));
-            holder.tvPriorityLabel.setBackgroundResource(R.drawable.bg_label_normal);
-            holder.tvPriorityLabel.setTextColor(ContextCompat.getColor(context, R.color.outline));
         } else {
-            holder.priorityIndicatorContainer.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(context, R.color.surface_container_low)));
-            holder.ivPriorityIcon.setImageResource(R.drawable.ic_calendar);
-            holder.ivPriorityIcon.setImageTintList(ColorStateList.valueOf(ContextCompat.getColor(context, R.color.on_surface_variant)));
             holder.tvPriorityLabel.setBackgroundResource(R.drawable.bg_label_normal);
             holder.tvPriorityLabel.setTextColor(ContextCompat.getColor(context, R.color.outline));
         }
@@ -131,40 +127,73 @@ public class DeadlineAdapter extends RecyclerView.Adapter<DeadlineAdapter.Deadli
             switch (event.getActionMasked()) {
                 case MotionEvent.ACTION_DOWN:
                     v.animate().scaleX(0.985f).scaleY(0.985f).setDuration(90).start();
-                    break;
+                    return false;
                 case MotionEvent.ACTION_UP:
+                    v.performClick();
+                    v.animate().scaleX(1f).scaleY(1f).setDuration(140).start();
+                    return true;
                 case MotionEvent.ACTION_CANCEL:
                     v.animate().scaleX(1f).scaleY(1f).setDuration(140).start();
-                    break;
+                    return true;
                 default:
-                    break;
+                    return false;
             }
-            return false;
         });
     }
 
-    class DeadlineHolder extends RecyclerView.ViewHolder {
-        private TextView tvTitle;
-        private TextView tvModule;
-        private TextView tvDueTime;
-        private TextView tvPriorityLabel;
-        private CheckBox cbDone;
-        private View priorityIndicatorContainer;
-        private ImageView ivPriorityIcon;
+    public static class DeadlineHolder extends RecyclerView.ViewHolder {
+        private final MaterialCardView cardView;
+        private final TextView tvTitle;
+        private final TextView tvModule;
+        private final TextView tvDueTime;
+        private final TextView tvPriorityLabel;
+        private final TextView tvPrioritySymbol;
+        private final CheckBox cbDone;
+        private final View priorityIndicatorContainer;
 
         public DeadlineHolder(View itemView) {
             super(itemView);
+            cardView = itemView.findViewById(R.id.card_deadline);
             tvTitle = itemView.findViewById(R.id.tv_title);
             tvModule = itemView.findViewById(R.id.tv_module);
             tvDueTime = itemView.findViewById(R.id.tv_due_time);
             tvPriorityLabel = itemView.findViewById(R.id.tv_priority_label);
+            tvPrioritySymbol = itemView.findViewById(R.id.tv_priority_symbol);
             cbDone = itemView.findViewById(R.id.cb_done);
             priorityIndicatorContainer = itemView.findViewById(R.id.priority_indicator_container);
-            ivPriorityIcon = itemView.findViewById(R.id.iv_priority_icon);
-            ivPriorityIcon.setContentDescription(itemView.getContext().getString(R.string.priority_icon_desc));
         }
     }
-    
+
+    private int getPriorityColor(String priority) {
+        if (priority != null && priority.equalsIgnoreCase("Low")) {
+            return ContextCompat.getColor(context, R.color.priority_low);
+        }
+        if (priority != null && priority.equalsIgnoreCase("Medium")) {
+            return ContextCompat.getColor(context, R.color.priority_medium);
+        }
+        return ContextCompat.getColor(context, R.color.priority_high);
+    }
+
+    private int getPriorityContainerColor(String priority) {
+        if (priority != null && priority.equalsIgnoreCase("Low")) {
+            return ContextCompat.getColor(context, R.color.priority_low_container);
+        }
+        if (priority != null && priority.equalsIgnoreCase("Medium")) {
+            return ContextCompat.getColor(context, R.color.priority_medium_container);
+        }
+        return ContextCompat.getColor(context, R.color.priority_high_container);
+    }
+
+    private String getPrioritySymbol(String priority) {
+        if (priority != null && priority.equalsIgnoreCase("Low")) {
+            return "!";
+        }
+        if (priority != null && priority.equalsIgnoreCase("Medium")) {
+            return "!!";
+        }
+        return "!!!";
+    }
+
     public interface OnItemClickListener {
         void onItemChecked(Deadline deadline);
     }

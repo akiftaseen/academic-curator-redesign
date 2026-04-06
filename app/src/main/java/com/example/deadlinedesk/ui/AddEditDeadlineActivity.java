@@ -22,7 +22,9 @@ import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.timepicker.MaterialTimePicker;
 import com.google.android.material.timepicker.TimeFormat;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Locale;
 import java.util.TimeZone;
 
 public class AddEditDeadlineActivity extends AppCompatActivity {
@@ -35,10 +37,12 @@ public class AddEditDeadlineActivity extends AppCompatActivity {
     public static final String EXTRA_DEADLINE_NOTES = "EXTRA_DEADLINE_NOTES";
     public static final String EXTRA_DEADLINE_DONE = "EXTRA_DEADLINE_DONE";
     public static final String EXTRA_DEADLINE_REMINDER_MINUTES = "EXTRA_DEADLINE_REMINDER_MINUTES";
+    public static final String EXTRA_PRESELECTED_DATE_MILLIS = "EXTRA_PRESELECTED_DATE_MILLIS";
 
     private EditText etTitle, etModule, etNotes;
     private AutoCompleteTextView spinnerReminder;
     private MaterialButtonToggleGroup priorityGroup;
+    private MaterialButtonToggleGroup timeFormatGroup;
     private CheckBox cbDone;
     private Button btnSave, btnDelete;
     private TextView tvSelectedDate, tvSelectedTime, tvToolbarTitle;
@@ -47,6 +51,7 @@ public class AddEditDeadlineActivity extends AppCompatActivity {
     private Calendar calendar;
     private DeadlineViewModel deadlineViewModel;
     private int deadlineId = -1;
+    private boolean use24HourPicker;
 
     private final int[] reminderValues = {60, 180, 1440, 2880}; // minutes
 
@@ -70,6 +75,7 @@ public class AddEditDeadlineActivity extends AppCompatActivity {
         etModule = findViewById(R.id.et_module);
         etNotes = findViewById(R.id.et_notes);
         priorityGroup = findViewById(R.id.group_priority);
+        timeFormatGroup = findViewById(R.id.group_time_format);
         spinnerReminder = findViewById(R.id.spinner_reminder);
         cbDone = findViewById(R.id.cb_is_done);
         btnSave = findViewById(R.id.btn_save);
@@ -80,6 +86,18 @@ public class AddEditDeadlineActivity extends AppCompatActivity {
         containerTimePicker = findViewById(R.id.container_time_picker);
 
         calendar = Calendar.getInstance();
+        use24HourPicker = DateFormat.is24HourFormat(this);
+
+        if (timeFormatGroup != null) {
+            timeFormatGroup.check(use24HourPicker ? R.id.btn_time_24h : R.id.btn_time_12h);
+            timeFormatGroup.addOnButtonCheckedListener((group, checkedId, isChecked) -> {
+                if (!isChecked) {
+                    return;
+                }
+                use24HourPicker = checkedId == R.id.btn_time_24h;
+                updateDateTimeTexts();
+            });
+        }
 
         if (priorityGroup != null) {
             priorityGroup.check(R.id.btn_priority_high);
@@ -124,6 +142,18 @@ public class AddEditDeadlineActivity extends AppCompatActivity {
             btnDelete.setVisibility(View.VISIBLE);
         } else {
             tvToolbarTitle.setText(R.string.new_assignment);
+            long preselectedDate = getIntent().getLongExtra(EXTRA_PRESELECTED_DATE_MILLIS, -1L);
+            if (preselectedDate > 0L) {
+                Calendar selectedDay = Calendar.getInstance();
+                selectedDay.setTimeInMillis(preselectedDate);
+                calendar.set(Calendar.YEAR, selectedDay.get(Calendar.YEAR));
+                calendar.set(Calendar.MONTH, selectedDay.get(Calendar.MONTH));
+                calendar.set(Calendar.DAY_OF_MONTH, selectedDay.get(Calendar.DAY_OF_MONTH));
+                calendar.set(Calendar.HOUR_OF_DAY, 18);
+                calendar.set(Calendar.MINUTE, 0);
+                calendar.set(Calendar.SECOND, 0);
+                calendar.set(Calendar.MILLISECOND, 0);
+            }
             updateDateTimeTexts();
         }
 
@@ -167,12 +197,15 @@ public class AddEditDeadlineActivity extends AppCompatActivity {
     }
 
     private void showTimePicker() {
-        int clockFormat = DateFormat.is24HourFormat(this)
-                ? TimeFormat.CLOCK_24H
-                : TimeFormat.CLOCK_12H;
+        openKeyboardTimePicker(use24HourPicker);
+    }
+
+    private void openKeyboardTimePicker(boolean use24Hour) {
+        int clockFormat = use24Hour ? TimeFormat.CLOCK_24H : TimeFormat.CLOCK_12H;
 
         MaterialTimePicker timePicker = new MaterialTimePicker.Builder()
-            .setTitleText(R.string.label_time)
+                .setTitleText(R.string.label_time)
+                .setInputMode(MaterialTimePicker.INPUT_MODE_KEYBOARD)
                 .setTimeFormat(clockFormat)
                 .setHour(calendar.get(Calendar.HOUR_OF_DAY))
                 .setMinute(calendar.get(Calendar.MINUTE))
@@ -190,7 +223,7 @@ public class AddEditDeadlineActivity extends AppCompatActivity {
 
     private void updateDateTimeTexts() {
         java.text.DateFormat dateFormat = DateFormat.getMediumDateFormat(this);
-        java.text.DateFormat timeFormat = DateFormat.getTimeFormat(this);
+        java.text.DateFormat timeFormat = new SimpleDateFormat(use24HourPicker ? "HH:mm" : "hh:mm a", Locale.getDefault());
         tvSelectedDate.setText(dateFormat.format(calendar.getTime()));
         tvSelectedTime.setText(timeFormat.format(calendar.getTime()));
     }

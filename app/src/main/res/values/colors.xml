@@ -39,6 +39,14 @@
     <color name="outline">#74777f</color>
     <color name="outline_variant">#26181C20</color>
 
+    <!-- Task Priority -->
+    <color name="priority_high">#d93025</color>
+    <color name="priority_high_container">#fce8e6</color>
+    <color name="priority_medium">#f4b400</color>
+    <color name="priority_medium_container">#fef7e0</color>
+    <color name="priority_low">#34a853</color>
+    <color name="priority_low_container">#e6f4ea</color>
+
     <!-- Status -->
     <color name="error">#ba1a1a</color>
     <color name="on_error">#ffffff</color>

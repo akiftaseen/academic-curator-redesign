@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/surface"
@@ -21,54 +22,6 @@
             android:layout_marginBottom="32dp"
             android:orientation="vertical">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:weightSum="1">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:fontFamily="@font/inter"
-                    android:text="@string/label_curated_list"
-                    android:textAllCaps="true"
-                    android:textColor="@color/on_surface_variant"
-                    android:textSize="12sp"
-                    android:textStyle="bold"
-                    android:letterSpacing="0.1" />
-
-                <com.google.android.material.textfield.TextInputLayout
-                    style="@style/Widget.DeadlineDesk.ExposedDropdownMenu"
-                    android:layout_width="176dp"
-                    android:layout_height="wrap_content"
-                    app:boxBackgroundColor="@color/surface_container_low"
-                    app:boxStrokeWidth="0dp"
-                    app:boxStrokeColor="@color/outline_variant"
-                    app:boxStrokeWidthFocused="0dp">
-
-                    <com.google.android.material.textfield.MaterialAutoCompleteTextView
-                        android:id="@+id/spinner_filter"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:ellipsize="end"
-                        android:popupBackground="@drawable/bg_dropdown_menu_material"
-                        android:fontFamily="@font/inter"
-                        android:inputType="none"
-                        android:maxLines="1"
-                        android:popupElevation="16dp"
-                        android:textColor="@color/primary"
-                        android:textSize="13sp"
-                        android:textStyle="bold"
-                        android:paddingTop="10dp"
-                        android:paddingBottom="10dp"
-                        android:paddingStart="12dp"
-                        android:paddingEnd="8dp" />
-                </com.google.android.material.textfield.TextInputLayout>
-            </LinearLayout>
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -78,6 +31,157 @@
                 android:textSize="32sp"
                 android:textStyle="bold"
                 android:letterSpacing="-0.02" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:orientation="vertical">
+
+                <HorizontalScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scrollbars="none">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:baselineAligned="false">
+
+                        <!-- Priority Filter -->
+                        <LinearLayout
+                            android:layout_width="160dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="8dp"
+                            android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/inter"
+                            android:text="Priority"
+                            android:textColor="@color/on_surface_variant"
+                            android:textSize="11sp"
+                            android:textStyle="bold"
+                            android:layout_marginBottom="4dp" />
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            style="@style/Widget.DeadlineDesk.ExposedDropdownMenu"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:boxBackgroundColor="@color/surface_container_low"
+                            app:boxStrokeWidth="0dp"
+                            app:boxStrokeColor="@color/outline_variant"
+                            app:boxStrokeWidthFocused="0dp">
+
+                            <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                                android:id="@+id/spinner_priority"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/inter"
+                                android:inputType="none"
+                                android:popupBackground="@drawable/bg_dropdown_menu_material"
+                                android:popupElevation="16dp"
+                                android:textColor="@color/primary"
+                                android:textSize="12sp"
+                                android:textStyle="bold"
+                                android:paddingTop="10dp"
+                                android:paddingBottom="10dp"
+                                android:paddingStart="12dp"
+                                android:paddingEnd="8dp" />
+                        </com.google.android.material.textfield.TextInputLayout>
+                    </LinearLayout>
+
+                    <!-- Module Filter -->
+                    <LinearLayout
+                        android:layout_width="160dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="8dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/inter"
+                            android:text="Module"
+                            android:textColor="@color/on_surface_variant"
+                            android:textSize="11sp"
+                            android:textStyle="bold"
+                            android:layout_marginBottom="4dp" />
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            style="@style/Widget.DeadlineDesk.ExposedDropdownMenu"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:boxBackgroundColor="@color/surface_container_low"
+                            app:boxStrokeWidth="0dp"
+                            app:boxStrokeColor="@color/outline_variant"
+                            app:boxStrokeWidthFocused="0dp">
+
+                            <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                                android:id="@+id/spinner_module"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/inter"
+                                android:inputType="none"
+                                android:popupBackground="@drawable/bg_dropdown_menu_material"
+                                android:popupElevation="16dp"
+                                android:textColor="@color/primary"
+                                android:textSize="12sp"
+                                android:textStyle="bold"
+                                android:paddingTop="10dp"
+                                android:paddingBottom="10dp"
+                                android:paddingStart="12dp"
+                                android:paddingEnd="8dp" />
+                        </com.google.android.material.textfield.TextInputLayout>
+                    </LinearLayout>
+
+                    <!-- Status Filter -->
+                    <LinearLayout
+                        android:layout_width="160dp"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/inter"
+                            android:text="Status"
+                            android:textColor="@color/on_surface_variant"
+                            android:textSize="11sp"
+                            android:textStyle="bold"
+                            android:layout_marginBottom="4dp" />
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            style="@style/Widget.DeadlineDesk.ExposedDropdownMenu"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:boxBackgroundColor="@color/surface_container_low"
+                            app:boxStrokeWidth="0dp"
+                            app:boxStrokeColor="@color/outline_variant"
+                            app:boxStrokeWidthFocused="0dp">
+
+                            <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                                android:id="@+id/spinner_completed"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/inter"
+                                android:inputType="none"
+                                android:popupBackground="@drawable/bg_dropdown_menu_material"
+                                android:popupElevation="16dp"
+                                android:textColor="@color/primary"
+                                android:textSize="12sp"
+                                android:textStyle="bold"
+                                android:paddingTop="10dp"
+                                android:paddingBottom="10dp"
+                                android:paddingStart="12dp"
+                                android:paddingEnd="8dp" />
+                        </com.google.android.material.textfield.TextInputLayout>
+                    </LinearLayout>
+                </LinearLayout>
+            </HorizontalScrollView>
+            </LinearLayout>
         </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
@@ -85,6 +189,26 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:nestedScrollingEnabled="false" />
+
+        <TextView
+            android:id="@+id/tv_completed_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:layout_marginBottom="16dp"
+            android:fontFamily="@font/manrope"
+            android:text="@string/completed_tasks"
+            android:textColor="@color/on_surface_variant"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:visibility="gone" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view_completed"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:nestedScrollingEnabled="false"
+            android:visibility="gone" />
 
         <LinearLayout
             android:id="@+id/empty_state_view"

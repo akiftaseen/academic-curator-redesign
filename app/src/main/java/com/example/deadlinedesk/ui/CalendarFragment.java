@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CalendarView;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -18,12 +17,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.snackbar.Snackbar;
+import android.widget.CalendarView;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import androidx.core.content.ContextCompat;
-import android.view.View;
 
 
 import com.example.deadlinedesk.R;
@@ -31,13 +30,15 @@ import com.example.deadlinedesk.data.Deadline;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
 public class CalendarFragment extends Fragment {
 
     private DeadlineViewModel deadlineViewModel;
-    private DeadlineAdapter adapter;
+    private DeadlineAdapter activeAdapter;
+    private DeadlineAdapter completedAdapter;
     private TextView tvCalendarHeader, tvAgendaDate, tvTaskCount;
     private CalendarView calendarView;
     private Calendar selectedCalendar;
@@ -51,6 +52,8 @@ public class CalendarFragment extends Fragment {
 
         calendarView = view.findViewById(R.id.calendarView);
         RecyclerView recyclerView = view.findViewById(R.id.recycler_view_agenda);
+        RecyclerView completedRecyclerView = view.findViewById(R.id.recycler_view_completed);
+        TextView completedHeader = view.findViewById(R.id.tv_completed_header);
         tvCalendarHeader = view.findViewById(R.id.tv_calendar_header);
         tvAgendaDate = view.findViewById(R.id.tv_agenda_date);
         tvTaskCount = view.findViewById(R.id.tv_task_count);
@@ -61,16 +64,20 @@ public class CalendarFragment extends Fragment {
         
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setHasFixedSize(true);
+        completedRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        completedRecyclerView.setHasFixedSize(true);
 
-        adapter = new DeadlineAdapter(getContext());
-        recyclerView.setAdapter(adapter);
+        activeAdapter = new DeadlineAdapter(getContext());
+        completedAdapter = new DeadlineAdapter(getContext());
+        recyclerView.setAdapter(activeAdapter);
+        completedRecyclerView.setAdapter(completedAdapter);
 
         deadlineViewModel = new ViewModelProvider(this).get(DeadlineViewModel.class);
 
         
         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
-            private Drawable icon = ContextCompat.getDrawable(getContext(), R.drawable.ic_delete);
-            private ColorDrawable background = new ColorDrawable(Color.parseColor("#FF5252"));
+            private final Drawable icon = ContextCompat.getDrawable(requireContext(), R.drawable.ic_delete);
+            private final ColorDrawable background = new ColorDrawable(Color.parseColor("#FF5252"));
 
             @Override
             public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
@@ -115,7 +122,7 @@ public class CalendarFragment extends Fragment {
 
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-                com.example.deadlinedesk.data.Deadline deletedDeadline = adapter.getDeadlineAt(viewHolder.getAdapterPosition());
+                com.example.deadlinedesk.data.Deadline deletedDeadline = activeAdapter.getDeadlineAt(viewHolder.getAdapterPosition());
                 deadlineViewModel.delete(deletedDeadline);
                 Snackbar.SnackbarLayout layout = (Snackbar.SnackbarLayout) Snackbar.make(recyclerView, "Assignment deleted", Snackbar.LENGTH_LONG)
                         .setAction("UNDO", v -> deadlineViewModel.insert(deletedDeadline)).getView();
@@ -123,9 +130,26 @@ public class CalendarFragment extends Fragment {
             }
         }).attachToRecyclerView(recyclerView);
 
-        adapter.setOnItemClickListener(deadline -> {
-
+        activeAdapter.setOnItemClickListener(deadline -> {
             deadlineViewModel.update(deadline);
+            if (selectedDayDeadlines != null) {
+                selectedDayDeadlines.observe(getViewLifecycleOwner(), deadlines -> {
+                    if (deadlines != null) {
+                        splitAndDisplayDeadlines(deadlines, completedHeader);
+                    }
+                });
+            }
+        });
+
+        completedAdapter.setOnItemClickListener(deadline -> {
+            deadlineViewModel.update(deadline);
+            if (selectedDayDeadlines != null) {
+                selectedDayDeadlines.observe(getViewLifecycleOwner(), deadlines -> {
+                    if (deadlines != null) {
+                        splitAndDisplayDeadlines(deadlines, completedHeader);
+                    }
+                });
+            }
         });
 
         selectedCalendar = Calendar.getInstance();
@@ -158,7 +182,7 @@ public class CalendarFragment extends Fragment {
             selectedCalendar.setTimeInMillis(currentTime);
             visibleMonthCalendar.setTimeInMillis(currentTime);
             visibleMonthCalendar.set(Calendar.DAY_OF_MONTH, 1);
-            calendarView.setDate(currentTime, true, true);
+            calendarView.setDate(currentTime);
             updateHeader(true);
             updateAgendaDateLabel(true);
             loadAgendaForDate(currentTime);
@@ -181,6 +205,7 @@ public class CalendarFragment extends Fragment {
             applyPressFeedback(btnEmptyAdd);
             btnEmptyAdd.setOnClickListener(v -> {
                 Intent intent = new Intent(getActivity(), AddEditDeadlineActivity.class);
+                intent.putExtra(AddEditDeadlineActivity.EXTRA_PRESELECTED_DATE_MILLIS, selectedCalendar.getTimeInMillis());
                 startActivity(intent);
             });
         }
@@ -198,7 +223,7 @@ public class CalendarFragment extends Fragment {
         selectedCalendar.set(Calendar.MONTH, visibleMonthCalendar.get(Calendar.MONTH));
         selectedCalendar.set(Calendar.DAY_OF_MONTH, adjustedDay);
 
-        calendarView.setDate(selectedCalendar.getTimeInMillis(), true, true);
+        calendarView.setDate(visibleMonthCalendar.getTimeInMillis());
         updateHeader(true);
         updateAgendaDateLabel(true);
         loadAgendaForDate(selectedCalendar.getTimeInMillis());
@@ -296,27 +321,46 @@ public class CalendarFragment extends Fragment {
 
         selectedDayDeadlines = deadlineViewModel.getDeadlinesByDate(startOfDay, endOfDay);
         selectedDayDeadlines.observe(getViewLifecycleOwner(), deadlines -> {
-            adapter.setDeadlines(deadlines);
-            
-            int pendingCount = 0;
-            if (deadlines != null) {
-                for (Deadline d : deadlines) {
-                    if (!d.isDone()) pendingCount++;
-                }
-            }
-            tvTaskCount.setText(getResources().getQuantityString(R.plurals.tasks_remaining_count, pendingCount, pendingCount));
-            
-            View view = getView();
-            if (view != null) {
-                View emptyState = view.findViewById(R.id.empty_state_view);
-                RecyclerView recyclerView = view.findViewById(R.id.recycler_view_agenda);
-                
-                if (emptyState != null && recyclerView != null) {
-                    boolean isEmpty = deadlines == null || deadlines.isEmpty();
-                    emptyState.setVisibility(isEmpty ? View.VISIBLE : View.GONE);
-                    recyclerView.setVisibility(isEmpty ? View.GONE : View.VISIBLE);
-                }
+            TextView completedHeader = getView() != null ? getView().findViewById(R.id.tv_completed_header) : null;
+            if (completedHeader != null) {
+                splitAndDisplayDeadlines(deadlines, completedHeader);
             }
         });
+    }
+
+    private void splitAndDisplayDeadlines(List<Deadline> deadlines, TextView completedHeader) {
+        List<Deadline> activeList = new java.util.ArrayList<>();
+        List<Deadline> completedList = new java.util.ArrayList<>();
+
+        if (deadlines != null) {
+            for (Deadline d : deadlines) {
+                if (d.isDone()) {
+                    completedList.add(d);
+                } else {
+                    activeList.add(d);
+                }
+            }
+        }
+
+        activeAdapter.setDeadlines(activeList);
+        completedAdapter.setDeadlines(completedList);
+        completedHeader.setVisibility(completedList.isEmpty() ? View.GONE : View.VISIBLE);
+
+        int pendingCount = activeList.size();
+        tvTaskCount.setText(getResources().getQuantityString(R.plurals.tasks_remaining_count, pendingCount, pendingCount));
+
+        View view = getView();
+        if (view != null) {
+            View emptyState = view.findViewById(R.id.empty_state_view);
+            RecyclerView recyclerView = view.findViewById(R.id.recycler_view_agenda);
+            RecyclerView completedRecyclerView = view.findViewById(R.id.recycler_view_completed);
+
+            if (emptyState != null && recyclerView != null) {
+                boolean isEmpty = activeList.isEmpty() && completedList.isEmpty();
+                emptyState.setVisibility(isEmpty ? View.VISIBLE : View.GONE);
+                recyclerView.setVisibility(isEmpty ? View.GONE : View.VISIBLE);
+                completedRecyclerView.setVisibility(isEmpty ? View.GONE : View.VISIBLE);
+            }
+        }
     }
 }

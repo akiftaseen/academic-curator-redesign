@@ -36,6 +36,10 @@
     <string name="label_priority">Priority</string>
     <string name="label_date">Date</string>
     <string name="label_time">Time</string>
+    <string name="time_format_12h">12-hour (AM/PM)</string>
+    <string name="time_format_24h">24-hour</string>
+    <string name="time_format_12h_short">12h</string>
+    <string name="time_format_24h_short">24h</string>
     <string name="label_notes">Notes</string>
     <string name="hint_notes">Add instructions or details...</string>
     <string name="mark_as_done">Mark as Done</string>
@@ -61,6 +65,7 @@
     <string name="title_upcoming">Upcoming</string>
     <string name="label_agenda_view">AGENDA VIEW</string>
     <string name="tasks_remaining">Tasks Remaining</string>
+    <string name="completed_tasks">Completed Tasks</string>
 
     <string name="label_notification">Notification</string>
     <string name="label_notification_desc">Get reminded before the deadline</string>

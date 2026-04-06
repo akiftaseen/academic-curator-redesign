@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/surface"
@@ -105,16 +106,12 @@
             app:cardElevation="0dp"
             app:strokeWidth="0dp"
             app:strokeColor="@color/outline_variant"
-            
-            
-            
             app:contentPadding="16dp">
 
             <CalendarView
                 android:id="@+id/calendarView"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:theme="@style/Widget.DeadlineDesk.CalendarView" />
+                android:layout_height="wrap_content" />
 
         </com.google.android.material.card.MaterialCardView>
 
@@ -152,6 +149,26 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:nestedScrollingEnabled="false" />
+
+        <TextView
+            android:id="@+id/tv_completed_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:layout_marginBottom="16dp"
+            android:fontFamily="@font/manrope"
+            android:text="@string/completed_tasks"
+            android:textColor="@color/on_surface_variant"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:visibility="gone" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view_completed"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:nestedScrollingEnabled="false"
+            android:visibility="gone" />
 
         <LinearLayout
             android:id="@+id/empty_state_view"
