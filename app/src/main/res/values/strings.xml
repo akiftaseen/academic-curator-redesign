@@ -3,6 +3,7 @@
     <string name="app_name">Scholar Slate</string>
     <string name="title_calendar">Calendar</string>
     <string name="title_tasks">Tasks</string>
+    <string name="title_add_task">Add Task</string>
     <string name="title_profile">Settings</string>
     <string name="label_settings">CURATOR SETTINGS</string>
     <string name="settings_title">Workspace Preferences</string>
@@ -41,11 +42,12 @@
     <string name="time_format_12h_short">12h</string>
     <string name="time_format_24h_short">24h</string>
     <string name="label_notes">Notes</string>
-    <string name="hint_notes">Add instructions or details...</string>
+    <string name="hint_notes">Add instructions or details…</string>
     <string name="mark_as_done">Mark as Done</string>
     <string name="mark_as_pending">Mark as Pending</string>
     <string name="snooze_15_minutes">Snooze (15m)</string>
     <string name="msg_calendar_app_not_found">No calendar app found</string>
+    <string name="msg_calendar_added">Added to calendar</string>
 
     <string name="priority_high">HIGH PRIORITY</string>
     <string name="priority_medium">MEDIUM PRIORITY</string>

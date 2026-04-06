@@ -1,16 +1,23 @@
 package com.example.deadlinedesk.ui;
 
+import android.Manifest;
+import android.content.ContentValues;
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.CalendarContract;
-import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.example.deadlinedesk.R;
 import com.example.deadlinedesk.data.Deadline;
@@ -19,15 +26,17 @@ import com.google.android.material.button.MaterialButton;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+import java.util.TimeZone;
 
 public class DeadlineDetailActivity extends AppCompatActivity {
 
-    private TextView tvTitle, tvModule, tvDueDate, tvNotes, tvPriorityTag, tvReminderValue;
+    private static final int REQ_CALENDAR_PERMISSIONS = 2001;
+
+    private TextView tvTitle, tvModule, tvNotes, tvPriorityTag, tvReminderValue, tvDeadlineDateValue, tvDeadlineTimeValue;
     private MaterialButton btnMarkDone;
-    private ImageButton btnEdit, btnShare;
-    private MaterialButton btnAddToCalendar;
     private DeadlineViewModel deadlineViewModel;
     private Deadline currentDeadline;
+    private boolean pendingCalendarInsert;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,15 +55,15 @@ public class DeadlineDetailActivity extends AppCompatActivity {
 
         tvTitle = findViewById(R.id.tv_title);
         tvModule = findViewById(R.id.tv_module);
-        tvDueDate = findViewById(R.id.tv_due_date);
         tvNotes = findViewById(R.id.tv_notes);
         tvPriorityTag = findViewById(R.id.tv_priority_tag);
         tvReminderValue = findViewById(R.id.tv_reminder_value);
+        tvDeadlineDateValue = findViewById(R.id.tv_deadline_date_value);
+        tvDeadlineTimeValue = findViewById(R.id.tv_deadline_time_value);
         btnMarkDone = findViewById(R.id.btn_mark_done);
-        btnEdit = findViewById(R.id.btn_edit);
-        btnShare = findViewById(R.id.btn_share);
-
-        btnAddToCalendar = findViewById(R.id.btn_add_to_calendar);
+        ImageButton btnEdit = findViewById(R.id.btn_edit);
+        ImageButton btnShare = findViewById(R.id.btn_share);
+        MaterialButton btnAddToCalendar = findViewById(R.id.btn_add_to_calendar);
 
         loadDeadlineData();
 
@@ -73,7 +82,7 @@ public class DeadlineDetailActivity extends AppCompatActivity {
             if (currentDeadline != null) {
                 String shareText = "Assignment: " + currentDeadline.getTitle() + "\n" +
                         "Module: " + currentDeadline.getModule() + "\n" +
-                        "Due: " + tvDueDate.getText().toString();
+                        "Due: " + getFormattedDueDate(currentDeadline.getDueDate());
                 if (currentDeadline.getNotes() != null && !currentDeadline.getNotes().isEmpty()) {
                     shareText += "\nNotes: " + currentDeadline.getNotes();
                 }
@@ -107,20 +116,118 @@ public class DeadlineDetailActivity extends AppCompatActivity {
                 return;
             }
 
-            Intent calendarIntent = new Intent(Intent.ACTION_INSERT)
-                    .setData(CalendarContract.Events.CONTENT_URI)
-                    .putExtra(CalendarContract.Events.TITLE, currentDeadline.getTitle())
-                    .putExtra(CalendarContract.Events.DESCRIPTION, currentDeadline.getNotes())
-                    .putExtra(CalendarContract.Events.EVENT_LOCATION, currentDeadline.getModule())
-                    .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, currentDeadline.getDueDate())
-                    .putExtra(CalendarContract.EXTRA_EVENT_END_TIME, currentDeadline.getDueDate() + (60 * 60 * 1000L));
-
-            if (calendarIntent.resolveActivity(getPackageManager()) != null) {
-                startActivity(calendarIntent);
-            } else {
-                Toast.makeText(this, R.string.msg_calendar_app_not_found, Toast.LENGTH_SHORT).show();
+            if (hasCalendarPermissions() && insertIntoDeviceCalendar()) {
+                return;
             }
+
+            if (!hasCalendarPermissions()) {
+                pendingCalendarInsert = true;
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.READ_CALENDAR, Manifest.permission.WRITE_CALENDAR},
+                        REQ_CALENDAR_PERMISSIONS);
+                return;
+            }
+
+            launchCalendarInsertIntent();
         });
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (requestCode == REQ_CALENDAR_PERMISSIONS) {
+            boolean granted = grantResults.length >= 2
+                    && grantResults[0] == PackageManager.PERMISSION_GRANTED
+                    && grantResults[1] == PackageManager.PERMISSION_GRANTED;
+
+            if (granted && pendingCalendarInsert && insertIntoDeviceCalendar()) {
+                pendingCalendarInsert = false;
+                return;
+            }
+
+            pendingCalendarInsert = false;
+            launchCalendarInsertIntent();
+        }
+    }
+
+    private boolean hasCalendarPermissions() {
+        return ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CALENDAR) == PackageManager.PERMISSION_GRANTED
+                && ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_CALENDAR) == PackageManager.PERMISSION_GRANTED;
+    }
+
+    private boolean insertIntoDeviceCalendar() {
+        if (currentDeadline == null) {
+            return false;
+        }
+
+        Long calendarId = findWritableCalendarId();
+        if (calendarId == null) {
+            return false;
+        }
+
+        long startTime = currentDeadline.getDueDate();
+        long endTime = startTime + (60 * 60 * 1000L);
+
+        ContentValues values = new ContentValues();
+        values.put(CalendarContract.Events.CALENDAR_ID, calendarId);
+        values.put(CalendarContract.Events.TITLE, currentDeadline.getTitle());
+        values.put(CalendarContract.Events.DESCRIPTION, currentDeadline.getNotes() != null ? currentDeadline.getNotes() : "");
+        values.put(CalendarContract.Events.EVENT_LOCATION, currentDeadline.getModule() != null ? currentDeadline.getModule() : "");
+        values.put(CalendarContract.Events.DTSTART, startTime);
+        values.put(CalendarContract.Events.DTEND, endTime);
+        values.put(CalendarContract.Events.EVENT_TIMEZONE, TimeZone.getDefault().getID());
+        values.put(CalendarContract.Events.HAS_ALARM, 1);
+
+        Uri inserted = getContentResolver().insert(CalendarContract.Events.CONTENT_URI, values);
+        if (inserted != null) {
+            Toast.makeText(this, getString(R.string.msg_calendar_added), Toast.LENGTH_SHORT).show();
+            return true;
+        }
+        return false;
+    }
+
+    private Long findWritableCalendarId() {
+        String[] projection = {CalendarContract.Calendars._ID};
+        String selection = CalendarContract.Calendars.CALENDAR_ACCESS_LEVEL + ">=?";
+        String[] selectionArgs = {String.valueOf(CalendarContract.Calendars.CAL_ACCESS_CONTRIBUTOR)};
+        String sortOrder = CalendarContract.Calendars.IS_PRIMARY + " DESC, "
+                + CalendarContract.Calendars.VISIBLE + " DESC, "
+                + CalendarContract.Calendars.CALENDAR_ACCESS_LEVEL + " DESC, "
+                + CalendarContract.Calendars._ID + " ASC";
+
+        try (android.database.Cursor cursor = getContentResolver().query(
+                CalendarContract.Calendars.CONTENT_URI,
+                projection,
+                selection,
+                selectionArgs,
+                sortOrder)) {
+            if (cursor != null && cursor.moveToFirst()) {
+                return cursor.getLong(0);
+            }
+        }
+
+        return null;
+    }
+
+    private void launchCalendarInsertIntent() {
+        if (currentDeadline == null) {
+            return;
+        }
+
+        Intent calendarIntent = new Intent(Intent.ACTION_INSERT)
+                .setData(CalendarContract.Events.CONTENT_URI)
+                .putExtra(CalendarContract.Events.TITLE, currentDeadline.getTitle())
+                .putExtra(CalendarContract.Events.DESCRIPTION, currentDeadline.getNotes())
+                .putExtra(CalendarContract.Events.EVENT_LOCATION, currentDeadline.getModule())
+                .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, currentDeadline.getDueDate())
+                .putExtra(CalendarContract.EXTRA_EVENT_END_TIME, currentDeadline.getDueDate() + (60 * 60 * 1000L));
+
+        try {
+            startActivity(calendarIntent);
+        } catch (ActivityNotFoundException e) {
+            Toast.makeText(this, R.string.msg_calendar_app_not_found, Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void loadDeadlineData() {
@@ -139,24 +246,27 @@ public class DeadlineDetailActivity extends AppCompatActivity {
             tvTitle.setText(currentDeadline.getTitle());
             tvModule.setText(currentDeadline.getModule());
             
-            SimpleDateFormat sdf = new SimpleDateFormat("MMM dd • hh:mm a", Locale.getDefault());
-            tvDueDate.setText(sdf.format(new Date(currentDeadline.getDueDate())));
-            
+            SimpleDateFormat dateOnlyFormat = new SimpleDateFormat("EEE, MMM dd yyyy", Locale.getDefault());
+            SimpleDateFormat timeOnlyFormat = new SimpleDateFormat("hh:mm a", Locale.getDefault());
+            tvDeadlineDateValue.setText(dateOnlyFormat.format(new Date(currentDeadline.getDueDate())));
+            tvDeadlineTimeValue.setText(timeOnlyFormat.format(new Date(currentDeadline.getDueDate())));
+
             tvNotes.setText(currentDeadline.getNotes());
             tvReminderValue.setText(getReminderLabel(currentDeadline.getReminderMinutes()));
             
             String priority = currentDeadline.getPriority();
-            if (priority != null) {
-                if (priority.equalsIgnoreCase("High")) {
-                    tvPriorityTag.setText(R.string.priority_high);
-                    tvPriorityTag.setBackgroundResource(R.drawable.bg_priority_tag_urgent);
-                } else if (priority.equalsIgnoreCase("Medium")) {
-                    tvPriorityTag.setText(R.string.priority_medium);
-                    tvPriorityTag.setBackgroundResource(R.drawable.bg_priority_tag);
-                } else {
-                    tvPriorityTag.setText(R.string.priority_low);
-                    tvPriorityTag.setBackgroundResource(R.drawable.bg_priority_tag);
-                }
+            if (priority != null && priority.equalsIgnoreCase("Low")) {
+                tvPriorityTag.setText(R.string.priority_low);
+                tvPriorityTag.setBackgroundResource(R.drawable.bg_priority_tag_low);
+                tvPriorityTag.setTextColor(ContextCompat.getColor(this, R.color.priority_low));
+            } else if (priority != null && priority.equalsIgnoreCase("Medium")) {
+                tvPriorityTag.setText(R.string.priority_medium);
+                tvPriorityTag.setBackgroundResource(R.drawable.bg_priority_tag_medium);
+                tvPriorityTag.setTextColor(ContextCompat.getColor(this, R.color.priority_medium));
+            } else {
+                tvPriorityTag.setText(R.string.priority_high);
+                tvPriorityTag.setBackgroundResource(R.drawable.bg_priority_tag_high);
+                tvPriorityTag.setTextColor(ContextCompat.getColor(this, R.color.priority_high));
             }
             
             updateMarkDoneButton();
@@ -171,6 +281,11 @@ public class DeadlineDetailActivity extends AppCompatActivity {
 
         int hours = Math.max(1, reminderMinutes / 60);
         return getResources().getQuantityString(R.plurals.reminder_hours_before, hours, hours);
+    }
+
+    private String getFormattedDueDate(long dueDateMillis) {
+        SimpleDateFormat dueDateFormat = new SimpleDateFormat("MMM dd • hh:mm a", Locale.getDefault());
+        return dueDateFormat.format(new Date(dueDateMillis));
     }
 
     private void updateMarkDoneButton() {

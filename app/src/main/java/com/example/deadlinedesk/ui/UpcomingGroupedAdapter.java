@@ -87,14 +87,7 @@ public class UpcomingGroupedAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         deadlineHolder.tvPrioritySymbol.setText(getPrioritySymbol(priority));
         deadlineHolder.tvPrioritySymbol.setTextColor(priorityColor);
         deadlineHolder.tvPriorityLabel.setText(priority.toUpperCase(Locale.getDefault()));
-
-        if (priority.equalsIgnoreCase("High")) {
-            deadlineHolder.tvPriorityLabel.setBackgroundResource(R.drawable.bg_label_urgent);
-            deadlineHolder.tvPriorityLabel.setTextColor(ContextCompat.getColor(context, R.color.tertiary));
-        } else {
-            deadlineHolder.tvPriorityLabel.setBackgroundResource(R.drawable.bg_label_normal);
-            deadlineHolder.tvPriorityLabel.setTextColor(ContextCompat.getColor(context, R.color.outline));
-        }
+        applyPriorityBadgeStyle(deadlineHolder.tvPriorityLabel, priority);
 
         deadlineHolder.cbDone.setOnCheckedChangeListener(null);
         deadlineHolder.cbDone.setChecked(currentDeadline.isDone());
@@ -204,6 +197,22 @@ public class UpcomingGroupedAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             return "!!";
         }
         return "!!!";
+    }
+
+    private void applyPriorityBadgeStyle(TextView badgeView, String priority) {
+        if (priority != null && priority.equalsIgnoreCase("Low")) {
+            badgeView.setBackgroundResource(R.drawable.bg_label_low);
+            badgeView.setTextColor(ContextCompat.getColor(context, R.color.priority_low));
+            return;
+        }
+        if (priority != null && priority.equalsIgnoreCase("Medium")) {
+            badgeView.setBackgroundResource(R.drawable.bg_label_medium);
+            badgeView.setTextColor(ContextCompat.getColor(context, R.color.priority_medium));
+            return;
+        }
+
+        badgeView.setBackgroundResource(R.drawable.bg_label_high);
+        badgeView.setTextColor(ContextCompat.getColor(context, R.color.priority_high));
     }
 
     public void setOnItemClickListener(OnItemClickListener listener) {

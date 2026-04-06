@@ -64,15 +64,8 @@ public class DeadlineAdapter extends RecyclerView.Adapter<DeadlineAdapter.Deadli
         holder.tvPrioritySymbol.setText(getPrioritySymbol(priority));
         holder.tvPrioritySymbol.setTextColor(priorityColor);
         holder.tvPriorityLabel.setText(priority.toUpperCase(Locale.getDefault()));
+        applyPriorityBadgeStyle(holder.tvPriorityLabel, priority);
 
-        if (priority.equalsIgnoreCase("High")) {
-            holder.tvPriorityLabel.setBackgroundResource(R.drawable.bg_label_urgent);
-            holder.tvPriorityLabel.setTextColor(ContextCompat.getColor(context, R.color.tertiary));
-        } else {
-            holder.tvPriorityLabel.setBackgroundResource(R.drawable.bg_label_normal);
-            holder.tvPriorityLabel.setTextColor(ContextCompat.getColor(context, R.color.outline));
-        }
-        
         holder.cbDone.setChecked(currentDeadline.isDone());
         
         if (currentDeadline.isDone()) {
@@ -192,6 +185,22 @@ public class DeadlineAdapter extends RecyclerView.Adapter<DeadlineAdapter.Deadli
             return "!!";
         }
         return "!!!";
+    }
+
+    private void applyPriorityBadgeStyle(TextView badgeView, String priority) {
+        if (priority != null && priority.equalsIgnoreCase("Low")) {
+            badgeView.setBackgroundResource(R.drawable.bg_label_low);
+            badgeView.setTextColor(ContextCompat.getColor(context, R.color.priority_low));
+            return;
+        }
+        if (priority != null && priority.equalsIgnoreCase("Medium")) {
+            badgeView.setBackgroundResource(R.drawable.bg_label_medium);
+            badgeView.setTextColor(ContextCompat.getColor(context, R.color.priority_medium));
+            return;
+        }
+
+        badgeView.setBackgroundResource(R.drawable.bg_label_high);
+        badgeView.setTextColor(ContextCompat.getColor(context, R.color.priority_high));
     }
 
     public interface OnItemClickListener {

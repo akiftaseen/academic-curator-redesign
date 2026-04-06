@@ -13,7 +13,11 @@ import java.util.List;
 public class BootReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
-        if (Intent.ACTION_BOOT_COMPLETED.equals(intent.getAction())) {
+        String action = intent.getAction();
+        if (Intent.ACTION_BOOT_COMPLETED.equals(action)
+                || Intent.ACTION_MY_PACKAGE_REPLACED.equals(action)
+                || Intent.ACTION_TIME_CHANGED.equals(action)
+                || Intent.ACTION_TIMEZONE_CHANGED.equals(action)) {
             AppDatabase.databaseWriteExecutor.execute(() -> {
                 DeadlineDao dao = AppDatabase.getDatabase(context).deadlineDao();
                 List<Deadline> activeDeadlines = dao.getActiveDeadlinesSync(System.currentTimeMillis());

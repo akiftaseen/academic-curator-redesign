@@ -1,26 +1,41 @@
 package com.example.deadlinedesk;
 
+import android.Manifest;
+import android.app.AlarmManager;
+import android.content.Context;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.view.View;
+
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.example.deadlinedesk.ui.AddEditDeadlineActivity;
 import com.example.deadlinedesk.ui.CalendarFragment;
 import com.example.deadlinedesk.ui.UpcomingFragment;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationBarView;
 
 public class MainActivity extends AppCompatActivity {
+
+    private static final int REQ_POST_NOTIFICATIONS = 1001;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
-        
+        ensureReminderPermissions();
+
+        NavigationBarView bottomNav = findViewById(R.id.bottom_navigation);
+
         // Start with Calendar Fragment (as per refined_calendar_agenda mockup being primary)
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
@@ -29,6 +44,11 @@ public class MainActivity extends AppCompatActivity {
         }
 
         bottomNav.setOnItemSelectedListener(item -> {
+            if (item.getItemId() == R.id.nav_add) {
+                startActivity(new Intent(MainActivity.this, AddEditDeadlineActivity.class));
+                return false;
+            }
+
             Fragment selectedFragment = null;
 
             if (item.getItemId() == R.id.nav_calendar) {
@@ -44,10 +64,28 @@ public class MainActivity extends AppCompatActivity {
             return true;
         });
 
-        View fabAdd = findViewById(R.id.fab_add_deadline);
-        fabAdd.setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this, AddEditDeadlineActivity.class);
-            startActivity(intent);
-        });
+    }
+
+    private void ensureReminderPermissions() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU
+                && ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.POST_NOTIFICATIONS},
+                    REQ_POST_NOTIFICATIONS);
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+            if (alarmManager != null && !alarmManager.canScheduleExactAlarms()) {
+                Intent intent = new Intent(Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM,
+                        Uri.parse("package:" + getPackageName()));
+                try {
+                    startActivity(intent);
+                } catch (ActivityNotFoundException ignored) {
+                    // Some OEM builds may not expose this settings screen.
+                }
+            }
+        }
     }
 }

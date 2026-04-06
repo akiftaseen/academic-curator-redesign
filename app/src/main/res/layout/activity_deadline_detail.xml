@@ -71,12 +71,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="12dp"
-                android:background="@drawable/bg_priority_tag"
+                android:background="@drawable/bg_priority_tag_high"
                 android:fontFamily="@font/inter"
                 android:paddingHorizontal="16dp"
                 android:paddingVertical="6dp"
-                android:text="HIGH PRIORITY"
-                android:textColor="@color/on_primary"
+                android:text="@string/priority_high"
+                android:textColor="@color/priority_high"
                 android:textSize="11sp"
                 android:textStyle="bold"
                 android:letterSpacing="0.1" />
@@ -127,60 +127,122 @@
                         android:textStyle="bold"
                         tools:text="CS502: Machine Learning" />
                 </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/bg_bento_item"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:paddingHorizontal="16dp"
-                    android:paddingVertical="10dp">
-
-                    <ImageView
-                        android:layout_width="18dp"
-                        android:layout_height="18dp"
-                        android:src="@drawable/ic_calendar"
-                        app:tint="@color/primary" />
-
-                    <TextView
-                        android:id="@+id/tv_due_date"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:fontFamily="@font/inter"
-                        android:textColor="@color/on_surface"
-                        android:textSize="14sp"
-                        android:textStyle="bold"
-                        tools:text="Oct 24 • 11:59 PM" />
-                </LinearLayout>
             </LinearLayout>
 
-            <GridLayout
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:columnCount="2"
-                android:alignmentMode="alignBounds">
+                android:orientation="horizontal"
+                android:layout_marginBottom="16dp">
 
-                <!-- Notes Section -->
                 <com.google.android.material.card.MaterialCardView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_columnWeight="1.5"
-                    android:layout_marginEnd="16dp"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="12dp"
+                    android:minHeight="170dp"
                     app:cardBackgroundColor="@color/surface_container_lowest"
-                    app:cardCornerRadius="32dp"
+                    app:cardCornerRadius="24dp"
                     app:cardElevation="0dp"
                     app:strokeWidth="1dp"
-                    app:strokeColor="@color/outline_variant"
-                    
-                      
-                    >
+                    app:strokeColor="@color/outline_variant">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="161dp"
+                        android:orientation="vertical"
+                        android:padding="20dp">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="14dp"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="16dp"
+                                android:layout_height="16dp"
+                                android:src="@drawable/ic_calendar"
+                                app:tint="@color/primary" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="8dp"
+                                android:fontFamily="@font/manrope"
+                                android:letterSpacing="0.1"
+                                android:text="DEADLINE"
+                                android:textColor="@color/primary"
+                                android:textSize="10sp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/inter"
+                            android:text="@string/label_date"
+                            android:textColor="@color/on_surface_variant"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tv_deadline_date_value"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:background="@drawable/bg_bento_input"
+                            android:fontFamily="@font/inter"
+                            android:padding="12dp"
+                            android:textColor="@color/on_surface"
+                            android:textSize="14sp"
+                            android:textStyle="bold"
+                            tools:text="Apr 11, 2026" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="12dp"
+                            android:fontFamily="@font/inter"
+                            android:text="@string/label_time"
+                            android:textColor="@color/on_surface_variant"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tv_deadline_time_value"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:background="@drawable/bg_bento_input"
+                            android:fontFamily="@font/inter"
+                            android:padding="12dp"
+                            android:textColor="@color/on_surface"
+                            android:textSize="14sp"
+                            android:textStyle="bold"
+                            tools:text="07:42 AM" />
+
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="12dp"
+                    android:minHeight="170dp"
+                    app:cardBackgroundColor="@color/surface_container_low"
+                    app:cardCornerRadius="24dp"
+                    app:cardElevation="0dp"
+                    app:strokeWidth="1dp"
+                    app:strokeColor="@color/outline_variant">
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        android:padding="24dp">
+                        android:padding="20dp">
 
                         <LinearLayout
                             android:layout_width="wrap_content"
@@ -190,9 +252,9 @@
                             android:orientation="horizontal">
 
                             <ImageView
-                                android:layout_width="20dp"
-                                android:layout_height="20dp"
-                                android:src="@drawable/ic_note"
+                                android:layout_width="16dp"
+                                android:layout_height="16dp"
+                                android:src="@drawable/ic_bell"
                                 app:tint="@color/primary" />
 
                             <TextView
@@ -200,128 +262,98 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="8dp"
                                 android:fontFamily="@font/manrope"
-                                android:text="@string/assignment_notes"
+                                android:text="@string/reminders_label"
                                 android:textColor="@color/primary"
-                                android:textSize="18sp"
-                                android:textStyle="bold" />
+                                android:textSize="10sp"
+                                android:textStyle="bold"
+                                android:letterSpacing="0.1" />
                         </LinearLayout>
 
                         <TextView
-                            android:id="@+id/tv_notes"
+                            android:id="@+id/tv_reminder_value"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:background="@drawable/bg_bento_input"
                             android:fontFamily="@font/inter"
-                            android:lineSpacingExtra="6dp"
-                            android:textColor="@color/on_surface_variant"
-                            android:textSize="16sp"
-                            tools:text="Focus on the implementation of Transformer architectures and their specific efficiency improvements..." />
+                            android:padding="12dp"
+                            android:text="2 days before"
+                            android:textColor="@color/on_surface"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
 
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
+            </LinearLayout>
 
-                <!-- Sidebar column -->
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_columnWeight="1"
-                    android:orientation="vertical">
-
-                    <com.google.android.material.card.MaterialCardView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="24dp"
-                        app:cardBackgroundColor="@color/surface_container_low"
-                        app:cardCornerRadius="24dp"
-                        app:cardElevation="0dp">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:padding="20dp">
-
-                            <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginBottom="16dp"
-                                android:gravity="center_vertical"
-                                android:orientation="horizontal">
-
-                                <ImageView
-                                    android:layout_width="16dp"
-                                    android:layout_height="16dp"
-                                    android:src="@drawable/ic_bell"
-                                    app:tint="@color/primary" />
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginStart="8dp"
-                                    android:fontFamily="@font/manrope"
-                                    android:text="@string/reminders_label"
-                                    android:textColor="@color/primary"
-                                    android:textSize="10sp"
-                                    android:textStyle="bold"
-                                    android:letterSpacing="0.1" />
-                            </LinearLayout>
-
-                            <TextView
-                                android:id="@+id/tv_reminder_value"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:background="@drawable/bg_bento_input"
-                                android:fontFamily="@font/inter"
-                                android:padding="12dp"
-                                android:text="2 days before"
-                                android:textColor="@color/on_surface"
-                                android:textSize="12sp"
-                                android:textStyle="bold" />
-
-                        </LinearLayout>
-                    </com.google.android.material.card.MaterialCardView>
-
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btn_add_to_calendar"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/manrope"
-                        android:paddingVertical="16dp"
-                        android:text="@string/add_to_calendar"
-                        android:textAllCaps="false"
-                        android:textColor="@color/on_surface"
-                        android:textStyle="bold"
-                        app:backgroundTint="@color/surface_container_highest"
-                        app:cornerRadius="24dp"
-                        app:icon="@drawable/ic_calendar"
-                        app:iconTint="@color/primary"
-                        style="@style/Widget.Material3.Button.TonalButton" />
-
-                </LinearLayout>
-            </GridLayout>
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_add_to_calendar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp"
+                android:fontFamily="@font/manrope"
+                android:paddingVertical="16dp"
+                android:text="@string/add_to_calendar"
+                android:textAllCaps="false"
+                android:textColor="@color/on_surface"
+                android:textStyle="bold"
+                style="@style/Widget.Material3.Button.TonalButton"
+                app:backgroundTint="@color/surface_container_highest"
+                app:cornerRadius="24dp"
+                app:icon="@drawable/ic_calendar"
+                app:iconTint="@color/primary" />
 
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
-                android:layout_height="180dp"
-                android:layout_marginTop="32dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
                 app:cardCornerRadius="32dp"
                 app:cardElevation="0dp"
-                    app:strokeWidth="1dp"
-                    app:strokeColor="@color/outline_variant">
+                app:strokeWidth="1dp"
+                app:strokeColor="@color/outline_variant"
+                app:cardBackgroundColor="@color/surface_container_lowest">
 
-                <ImageView
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"
-                    android:padding="36dp"
-                    android:scaleType="centerInside"
-                    android:src="@drawable/ic_hero_study"
-                    android:alpha="0.24"
-                    app:tint="@color/primary" />
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="24dp">
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/gradient_surface_fade" />
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="16dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:src="@drawable/ic_note"
+                            app:tint="@color/primary" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:fontFamily="@font/manrope"
+                            android:text="@string/assignment_notes"
+                            android:textColor="@color/primary"
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/tv_notes"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/inter"
+                        android:lineSpacingExtra="6dp"
+                        android:minHeight="180dp"
+                        android:textColor="@color/on_surface_variant"
+                        android:textSize="16sp"
+                        tools:text="Focus on the implementation of Transformer architectures and their specific efficiency improvements..." />
+
+                </LinearLayout>
 
             </com.google.android.material.card.MaterialCardView>
 

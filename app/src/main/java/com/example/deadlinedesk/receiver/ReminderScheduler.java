@@ -42,8 +42,8 @@ public class ReminderScheduler {
                 if (alarmManager.canScheduleExactAlarms()) {
                     alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, triggerTime, pendingIntent);
                 } else {
-                    // Fallback to non-exact alarm
-                    alarmManager.setWindow(AlarmManager.RTC_WAKEUP, triggerTime, 60*1000, pendingIntent);
+                    // Fallback to inexact alarm that can still run while idle.
+                    alarmManager.setAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, triggerTime, pendingIntent);
                 }
             } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, triggerTime, pendingIntent);
