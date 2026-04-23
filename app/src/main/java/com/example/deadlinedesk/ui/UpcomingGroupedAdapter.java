@@ -28,6 +28,7 @@ public class UpcomingGroupedAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
     private static final int VIEW_TYPE_HEADER = 0;
     private static final int VIEW_TYPE_ITEM = 1;
+    private static final int MODULE_TAG_MAX_CHARS = 16;
 
     private final Context context;
     private final List<Row> rows = new ArrayList<>();
@@ -69,7 +70,7 @@ public class UpcomingGroupedAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         DeadlineHolder deadlineHolder = (DeadlineHolder) holder;
 
         deadlineHolder.tvTitle.setText(currentDeadline.getTitle());
-        deadlineHolder.tvModule.setText(currentDeadline.getModule());
+        deadlineHolder.tvModule.setText(formatModuleTag(currentDeadline.getModule()));
 
         SimpleDateFormat timeSdf = new SimpleDateFormat("HH:mm", Locale.getDefault());
         deadlineHolder.tvDueTime.setText(timeSdf.format(new Date(currentDeadline.getDueDate())));
@@ -213,6 +214,19 @@ public class UpcomingGroupedAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
         badgeView.setBackgroundResource(R.drawable.bg_label_high);
         badgeView.setTextColor(ContextCompat.getColor(context, R.color.priority_high));
+    }
+
+    private String formatModuleTag(String module) {
+        if (module == null) {
+            return "";
+        }
+
+        String normalized = module.trim();
+        if (normalized.length() <= MODULE_TAG_MAX_CHARS) {
+            return normalized;
+        }
+
+        return normalized.substring(0, MODULE_TAG_MAX_CHARS - 3) + "...";
     }
 
     public void setOnItemClickListener(OnItemClickListener listener) {

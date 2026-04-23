@@ -27,6 +27,8 @@ import java.util.Locale;
 
 public class DeadlineAdapter extends RecyclerView.Adapter<DeadlineAdapter.DeadlineHolder> {
 
+    private static final int MODULE_TAG_MAX_CHARS = 16;
+
     private List<Deadline> deadlines = new ArrayList<>();
     private final Context context;
     private OnItemClickListener listener;
@@ -48,7 +50,7 @@ public class DeadlineAdapter extends RecyclerView.Adapter<DeadlineAdapter.Deadli
     public void onBindViewHolder(@NonNull DeadlineHolder holder, int position) {
         Deadline currentDeadline = deadlines.get(position);
         holder.tvTitle.setText(currentDeadline.getTitle());
-        holder.tvModule.setText(currentDeadline.getModule());
+        holder.tvModule.setText(formatModuleTag(currentDeadline.getModule()));
         
         SimpleDateFormat timeSdf = new SimpleDateFormat("HH:mm", Locale.getDefault());
         holder.tvDueTime.setText(timeSdf.format(new Date(currentDeadline.getDueDate())));
@@ -201,6 +203,19 @@ public class DeadlineAdapter extends RecyclerView.Adapter<DeadlineAdapter.Deadli
 
         badgeView.setBackgroundResource(R.drawable.bg_label_high);
         badgeView.setTextColor(ContextCompat.getColor(context, R.color.priority_high));
+    }
+
+    private String formatModuleTag(String module) {
+        if (module == null) {
+            return "";
+        }
+
+        String normalized = module.trim();
+        if (normalized.length() <= MODULE_TAG_MAX_CHARS) {
+            return normalized;
+        }
+
+        return normalized.substring(0, MODULE_TAG_MAX_CHARS - 3) + "...";
     }
 
     public interface OnItemClickListener {
