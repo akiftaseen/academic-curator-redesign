@@ -15,6 +15,7 @@ public class Deadline {
     private String notes;
     private boolean isDone;
     private int reminderMinutes; // New field for custom reminder time
+    private long calendarEventId = -1L;
 
     // Zero-argument constructor
     public Deadline() {}
@@ -43,4 +44,7 @@ public class Deadline {
 
     public int getReminderMinutes() { return reminderMinutes; }
     public void setReminderMinutes(int reminderMinutes) { this.reminderMinutes = reminderMinutes; }
+
+    public long getCalendarEventId() { return calendarEventId; }
+    public void setCalendarEventId(long calendarEventId) { this.calendarEventId = calendarEventId; }
 }

@@ -23,9 +23,12 @@ import com.example.deadlinedesk.ui.CalendarFragment;
 import com.example.deadlinedesk.ui.UpcomingFragment;
 import com.google.android.material.navigation.NavigationBarView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity {
 
-    private static final int REQ_POST_NOTIFICATIONS = 1001;
+    private static final int REQ_RUNTIME_PERMISSIONS = 1001;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,12 +70,25 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void ensureReminderPermissions() {
+        List<String> missingPermissions = new ArrayList<>();
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CALENDAR)
+                != PackageManager.PERMISSION_GRANTED) {
+            missingPermissions.add(Manifest.permission.READ_CALENDAR);
+        }
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_CALENDAR)
+                != PackageManager.PERMISSION_GRANTED) {
+            missingPermissions.add(Manifest.permission.WRITE_CALENDAR);
+        }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU
                 && ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS)
                 != PackageManager.PERMISSION_GRANTED) {
+            missingPermissions.add(Manifest.permission.POST_NOTIFICATIONS);
+        }
+
+        if (!missingPermissions.isEmpty()) {
             ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.POST_NOTIFICATIONS},
-                    REQ_POST_NOTIFICATIONS);
+                    missingPermissions.toArray(new String[0]),
+                    REQ_RUNTIME_PERMISSIONS);
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {

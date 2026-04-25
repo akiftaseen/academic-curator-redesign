@@ -37,6 +37,7 @@ public class AddEditDeadlineActivity extends AppCompatActivity {
     public static final String EXTRA_DEADLINE_NOTES = "EXTRA_DEADLINE_NOTES";
     public static final String EXTRA_DEADLINE_DONE = "EXTRA_DEADLINE_DONE";
     public static final String EXTRA_DEADLINE_REMINDER_MINUTES = "EXTRA_DEADLINE_REMINDER_MINUTES";
+    public static final String EXTRA_DEADLINE_CALENDAR_EVENT_ID = "EXTRA_DEADLINE_CALENDAR_EVENT_ID";
     public static final String EXTRA_PRESELECTED_DATE_MILLIS = "EXTRA_PRESELECTED_DATE_MILLIS";
 
     private EditText etTitle, etModule, etNotes;
@@ -51,6 +52,7 @@ public class AddEditDeadlineActivity extends AppCompatActivity {
     private Calendar calendar;
     private DeadlineViewModel deadlineViewModel;
     private int deadlineId = -1;
+    private long calendarEventId = -1L;
     private boolean use24HourPicker;
 
     private final int[] reminderValues = {60, 180, 1440, 2880}; // minutes
@@ -118,6 +120,7 @@ public class AddEditDeadlineActivity extends AppCompatActivity {
             etModule.setText(getIntent().getStringExtra(EXTRA_DEADLINE_MODULE));
             etNotes.setText(getIntent().getStringExtra(EXTRA_DEADLINE_NOTES));
             cbDone.setChecked(getIntent().getBooleanExtra(EXTRA_DEADLINE_DONE, false));
+            calendarEventId = getIntent().getLongExtra(EXTRA_DEADLINE_CALENDAR_EVENT_ID, -1L);
             
             String priority = getIntent().getStringExtra(EXTRA_DEADLINE_PRIORITY);
             if (priority != null) {
@@ -279,6 +282,7 @@ public class AddEditDeadlineActivity extends AppCompatActivity {
 
         if (deadlineId != -1) {
             deadline.setId(deadlineId);
+            deadline.setCalendarEventId(calendarEventId);
             deadlineViewModel.update(deadline);
             Toast.makeText(this, R.string.msg_assignment_updated, Toast.LENGTH_SHORT).show();
         } else {

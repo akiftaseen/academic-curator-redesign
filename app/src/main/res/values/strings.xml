@@ -48,6 +48,7 @@
     <string name="snooze_15_minutes">Snooze (15m)</string>
     <string name="msg_calendar_app_not_found">No calendar app found</string>
     <string name="msg_calendar_added">Added to calendar</string>
+    <string name="msg_calendar_synced">Calendar event updated</string>
 
     <string name="priority_high">HIGH PRIORITY</string>
     <string name="priority_medium">MEDIUM PRIORITY</string>

@@ -1,11 +1,9 @@
 package com.example.deadlinedesk.ui;
 
 import android.Manifest;
-import android.content.ContentValues;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.os.Bundle;
 import android.provider.CalendarContract;
 import android.widget.ImageButton;
@@ -20,14 +18,13 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.example.deadlinedesk.R;
+import com.example.deadlinedesk.calendar.DeviceCalendarSync;
 import com.example.deadlinedesk.data.Deadline;
 import com.google.android.material.button.MaterialButton;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
-import java.util.TimeZone;
-
 public class DeadlineDetailActivity extends AppCompatActivity {
 
     private static final int REQ_CALENDAR_PERMISSIONS = 2001;
@@ -106,6 +103,7 @@ public class DeadlineDetailActivity extends AppCompatActivity {
                 intent.putExtra(AddEditDeadlineActivity.EXTRA_DEADLINE_NOTES, currentDeadline.getNotes());
                 intent.putExtra(AddEditDeadlineActivity.EXTRA_DEADLINE_DONE, currentDeadline.isDone());
                 intent.putExtra(AddEditDeadlineActivity.EXTRA_DEADLINE_REMINDER_MINUTES, currentDeadline.getReminderMinutes());
+                intent.putExtra(AddEditDeadlineActivity.EXTRA_DEADLINE_CALENDAR_EVENT_ID, currentDeadline.getCalendarEventId());
                 startActivity(intent);
                 finish();
             }
@@ -116,7 +114,7 @@ public class DeadlineDetailActivity extends AppCompatActivity {
                 return;
             }
 
-            if (hasCalendarPermissions() && insertIntoDeviceCalendar()) {
+            if (hasCalendarPermissions() && syncDeadlineWithCalendar()) {
                 return;
             }
 
@@ -157,57 +155,24 @@ public class DeadlineDetailActivity extends AppCompatActivity {
     }
 
     private boolean insertIntoDeviceCalendar() {
+        return syncDeadlineWithCalendar();
+    }
+
+    private boolean syncDeadlineWithCalendar() {
         if (currentDeadline == null) {
             return false;
         }
 
-        Long calendarId = findWritableCalendarId();
-        if (calendarId == null) {
-            return false;
-        }
-
-        long startTime = currentDeadline.getDueDate();
-        long endTime = startTime + (60 * 60 * 1000L);
-
-        ContentValues values = new ContentValues();
-        values.put(CalendarContract.Events.CALENDAR_ID, calendarId);
-        values.put(CalendarContract.Events.TITLE, currentDeadline.getTitle());
-        values.put(CalendarContract.Events.DESCRIPTION, currentDeadline.getNotes() != null ? currentDeadline.getNotes() : "");
-        values.put(CalendarContract.Events.EVENT_LOCATION, currentDeadline.getModule() != null ? currentDeadline.getModule() : "");
-        values.put(CalendarContract.Events.DTSTART, startTime);
-        values.put(CalendarContract.Events.DTEND, endTime);
-        values.put(CalendarContract.Events.EVENT_TIMEZONE, TimeZone.getDefault().getID());
-        values.put(CalendarContract.Events.HAS_ALARM, 1);
-
-        Uri inserted = getContentResolver().insert(CalendarContract.Events.CONTENT_URI, values);
-        if (inserted != null) {
-            Toast.makeText(this, getString(R.string.msg_calendar_added), Toast.LENGTH_SHORT).show();
+        long syncedEventId = DeviceCalendarSync.upsertDeadlineEvent(this, currentDeadline);
+        if (syncedEventId > 0L) {
+            boolean isFirstSync = currentDeadline.getCalendarEventId() <= 0L;
+            currentDeadline.setCalendarEventId(syncedEventId);
+            deadlineViewModel.update(currentDeadline);
+            Toast.makeText(this, getString(isFirstSync ? R.string.msg_calendar_added : R.string.msg_calendar_synced), Toast.LENGTH_SHORT).show();
             return true;
         }
+
         return false;
-    }
-
-    private Long findWritableCalendarId() {
-        String[] projection = {CalendarContract.Calendars._ID};
-        String selection = CalendarContract.Calendars.CALENDAR_ACCESS_LEVEL + ">=?";
-        String[] selectionArgs = {String.valueOf(CalendarContract.Calendars.CAL_ACCESS_CONTRIBUTOR)};
-        String sortOrder = CalendarContract.Calendars.IS_PRIMARY + " DESC, "
-                + CalendarContract.Calendars.VISIBLE + " DESC, "
-                + CalendarContract.Calendars.CALENDAR_ACCESS_LEVEL + " DESC, "
-                + CalendarContract.Calendars._ID + " ASC";
-
-        try (android.database.Cursor cursor = getContentResolver().query(
-                CalendarContract.Calendars.CONTENT_URI,
-                projection,
-                selection,
-                selectionArgs,
-                sortOrder)) {
-            if (cursor != null && cursor.moveToFirst()) {
-                return cursor.getLong(0);
-            }
-        }
-
-        return null;
     }
 
     private void launchCalendarInsertIntent() {
@@ -242,6 +207,7 @@ public class DeadlineDetailActivity extends AppCompatActivity {
             currentDeadline.setNotes(intent.getStringExtra(AddEditDeadlineActivity.EXTRA_DEADLINE_NOTES));
             currentDeadline.setDone(intent.getBooleanExtra(AddEditDeadlineActivity.EXTRA_DEADLINE_DONE, false));
             currentDeadline.setReminderMinutes(intent.getIntExtra(AddEditDeadlineActivity.EXTRA_DEADLINE_REMINDER_MINUTES, 60));
+            currentDeadline.setCalendarEventId(intent.getLongExtra(AddEditDeadlineActivity.EXTRA_DEADLINE_CALENDAR_EVENT_ID, -1L));
 
             tvTitle.setText(currentDeadline.getTitle());
             tvModule.setText(currentDeadline.getModule());

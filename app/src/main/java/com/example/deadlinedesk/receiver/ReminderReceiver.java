@@ -5,6 +5,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.os.Build;
 
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
@@ -104,7 +105,10 @@ public class ReminderReceiver extends BroadcastReceiver {
             .addAction(R.drawable.ic_snooze, context.getString(R.string.snooze_15_minutes), pSnoozeIntent);
 
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
-        if (ActivityCompat.checkSelfPermission(context, android.Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED) {
+        boolean canPostNotifications = Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU
+                || ActivityCompat.checkSelfPermission(context, android.Manifest.permission.POST_NOTIFICATIONS)
+                == PackageManager.PERMISSION_GRANTED;
+        if (canPostNotifications) {
             notificationManager.notify(deadlineId, builder.build());
         }
     }

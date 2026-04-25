@@ -44,10 +44,18 @@ public class DeadlineRepository {
         });
     }
 
+    public void updateSync(Deadline deadline) {
+        deadlineDao.update(deadline);
+    }
+
     public void delete(Deadline deadline) {
         AppDatabase.databaseWriteExecutor.execute(() -> {
             deadlineDao.delete(deadline);
         });
+    }
+
+    public void deleteSync(Deadline deadline) {
+        deadlineDao.delete(deadline);
     }
 
     public Deadline getDeadlineByIdSync(int id) {

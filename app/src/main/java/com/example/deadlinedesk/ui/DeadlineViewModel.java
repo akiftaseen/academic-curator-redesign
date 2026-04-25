@@ -6,6 +6,8 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
+import com.example.deadlinedesk.calendar.DeviceCalendarSync;
+import com.example.deadlinedesk.data.AppDatabase;
 import com.example.deadlinedesk.data.Deadline;
 import com.example.deadlinedesk.data.DeadlineRepository;
 import com.example.deadlinedesk.receiver.ReminderScheduler;
@@ -40,6 +42,12 @@ public class DeadlineViewModel extends AndroidViewModel {
             if (!insertedDeadline.isDone()) {
                 ReminderScheduler.scheduleReminder(getApplication(), insertedDeadline);
             }
+
+            long eventId = DeviceCalendarSync.upsertDeadlineEvent(getApplication(), insertedDeadline);
+            if (eventId > 0L && eventId != insertedDeadline.getCalendarEventId()) {
+                insertedDeadline.setCalendarEventId(eventId);
+                repository.update(insertedDeadline);
+            }
         });
     }
 
@@ -50,10 +58,32 @@ public class DeadlineViewModel extends AndroidViewModel {
         } else {
             ReminderScheduler.scheduleReminder(getApplication(), deadline);
         }
+
+        AppDatabase.databaseWriteExecutor.execute(() -> {
+            Deadline freshDeadline = repository.getDeadlineByIdSync(deadline.getId());
+            if (freshDeadline == null) {
+                return;
+            }
+
+            long syncedEventId = DeviceCalendarSync.upsertDeadlineEvent(getApplication(), freshDeadline);
+            if (syncedEventId > 0L && syncedEventId != freshDeadline.getCalendarEventId()) {
+                freshDeadline.setCalendarEventId(syncedEventId);
+                repository.updateSync(freshDeadline);
+            }
+        });
     }
 
     public void delete(Deadline deadline) {
-        repository.delete(deadline);
-        ReminderScheduler.cancelReminder(getApplication(), deadline.getId());
+        AppDatabase.databaseWriteExecutor.execute(() -> {
+            Deadline storedDeadline = repository.getDeadlineByIdSync(deadline.getId());
+            if (storedDeadline != null && storedDeadline.getCalendarEventId() > 0L) {
+                DeviceCalendarSync.deleteDeadlineEvent(getApplication(), storedDeadline.getCalendarEventId());
+            } else if (deadline.getCalendarEventId() > 0L) {
+                DeviceCalendarSync.deleteDeadlineEvent(getApplication(), deadline.getCalendarEventId());
+            }
+
+            repository.deleteSync(deadline);
+            ReminderScheduler.cancelReminder(getApplication(), deadline.getId());
+        });
     }
 }

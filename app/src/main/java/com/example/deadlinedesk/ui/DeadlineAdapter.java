@@ -99,6 +99,7 @@ public class DeadlineAdapter extends RecyclerView.Adapter<DeadlineAdapter.Deadli
             intent.putExtra(AddEditDeadlineActivity.EXTRA_DEADLINE_NOTES, currentDeadline.getNotes());
             intent.putExtra(AddEditDeadlineActivity.EXTRA_DEADLINE_DONE, currentDeadline.isDone());
             intent.putExtra(AddEditDeadlineActivity.EXTRA_DEADLINE_REMINDER_MINUTES, currentDeadline.getReminderMinutes());
+            intent.putExtra(AddEditDeadlineActivity.EXTRA_DEADLINE_CALENDAR_EVENT_ID, currentDeadline.getCalendarEventId());
             context.startActivity(intent);
         });
     }

@@ -11,6 +11,8 @@ import com.example.deadlinedesk.ui.AddEditDeadlineActivity;
 
 public class ReminderScheduler {
 
+    private static final long FALLBACK_TRIGGER_DELAY_MILLIS = 5_000L;
+
     public static void scheduleReminder(Context context, Deadline deadline) {
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         if (alarmManager == null) return;
@@ -34,22 +36,28 @@ public class ReminderScheduler {
 
         // Schedule based on reminderMinutes, default to 60 if not set
         int minutes = deadline.getReminderMinutes() > 0 ? deadline.getReminderMinutes() : 60;
-        long triggerTime = deadline.getDueDate() - ((long) minutes * 60 * 1000); 
+        long now = System.currentTimeMillis();
+        long dueDate = deadline.getDueDate();
+        if (dueDate < now) {
+            return;
+        }
 
-        // Make sure the time hasn't passed
-        if (triggerTime > System.currentTimeMillis()) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                if (alarmManager.canScheduleExactAlarms()) {
-                    alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, triggerTime, pendingIntent);
-                } else {
-                    // Fallback to inexact alarm that can still run while idle.
-                    alarmManager.setAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, triggerTime, pendingIntent);
-                }
-            } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        long triggerTime = dueDate - ((long) minutes * 60 * 1000);
+        if (triggerTime <= now) {
+            triggerTime = now + FALLBACK_TRIGGER_DELAY_MILLIS;
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            if (alarmManager.canScheduleExactAlarms()) {
                 alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, triggerTime, pendingIntent);
             } else {
-                alarmManager.setExact(AlarmManager.RTC_WAKEUP, triggerTime, pendingIntent);
+                // Fallback to inexact alarm that can still run while idle.
+                alarmManager.setAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, triggerTime, pendingIntent);
             }
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, triggerTime, pendingIntent);
+        } else {
+            alarmManager.setExact(AlarmManager.RTC_WAKEUP, triggerTime, pendingIntent);
         }
     }
 
